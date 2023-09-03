@@ -1,6 +1,6 @@
 name: ImplodusTravel
 main: me.ninjamandalorian.ImplodusTravel.ImplodusTravel
-version: 1.0.1
+version: 0.0.1
 api-version: 1.19
 description: Interactive exploration plugin for travelling across the world.
 author: NinjaMandalorian
