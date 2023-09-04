@@ -21,7 +21,7 @@ public class StationMenu {
             11, 
             BaseButton.create(Material.COMPASS)
                 .name("&9Add stations")
-                .lore("&cWarning: Consumes all tokens.")
+                .lore(colorMsg("&cWarning: Consumes all tokens."))
                 .task(new CommandTask("/implodustravel addtokens " + station.getId()).autoClose())
         );
         builder.setButton(
@@ -41,7 +41,7 @@ public class StationMenu {
             15,
             BaseButton.create(Material.WRITABLE_BOOK)
                 .name("&eEdit station")
-                .lore("&cOwner only")
+                .lore(colorMsg("&cOwner only"))
                 .task(task)
         );
 
