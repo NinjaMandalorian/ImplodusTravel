@@ -16,8 +16,8 @@ public class ItemGenerator {
     public static ItemStack getStationItem() {
         ItemStack stationItemStack = new ItemStack(Material.YELLOW_BANNER);
         ItemMeta meta = stationItemStack.getItemMeta();
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&e&lStation Item"));
-        meta.setLore(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&aPlace this to create a new station.")));
+        meta.setDisplayName(colorMsg("&e&lStation Item"));
+        meta.setLore(Arrays.asList(colorMsg("&aPlace this to create a new station.")));
 
         PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
         dataContainer.set(new NamespacedKey(ImplodusTravel.getInstance(), "customCheck"), PersistentDataType.INTEGER, 1);
@@ -25,6 +25,10 @@ public class ItemGenerator {
         stationItemStack.setItemMeta(meta);
 
         return stationItemStack;
+    }
+
+    private static String colorMsg(String msg) {
+        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
 }
