@@ -89,7 +89,7 @@ public class BaseButton {
     
     /**
      * Makes the Button glow
-     * @return
+     * @return button
      */
     public BaseButton glow() {
         this.itemStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
@@ -102,7 +102,7 @@ public class BaseButton {
     /**
      * Sets the itemstack of the button
      * @param itemStack
-     * @return
+     * @return button
      */
     public BaseButton itemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
@@ -112,7 +112,7 @@ public class BaseButton {
     /**
      * Sets the task
      * @param task
-     * @return
+     * @return button
      */
     public BaseButton task(BaseTask task) {
         this.task = task;
@@ -122,7 +122,7 @@ public class BaseButton {
     /**
      * Sets the quantity of the button's stack
      * @param num
-     * @return
+     * @return button
      */
     public BaseButton quantity(int num) {
         this.itemStack.setAmount(num);
@@ -132,7 +132,7 @@ public class BaseButton {
     /**
      * Renames the button
      * @param name
-     * @return
+     * @return button
      */
     public BaseButton name(String name) {
         name = ChatColor.translateAlternateColorCodes('&', name);
@@ -145,7 +145,7 @@ public class BaseButton {
     /**
      * Sets the button's lore
      * @param lore
-     * @return
+     * @return button
      */
     public BaseButton lore(List<String> lore) {
         ItemMeta meta = this.itemStack.getItemMeta();
@@ -158,7 +158,7 @@ public class BaseButton {
      * Sets the button's lore. 
      * <br> Split with '\n'
      * @param lore
-     * @return
+     * @return button
      */
     public BaseButton lore(String lore) {
         return lore(Arrays.asList(lore.split("\n")));
@@ -166,8 +166,8 @@ public class BaseButton {
     
     /**
      * Runs the button task.
-     * @param e
-     * @return
+     * @param ClickEvent
+     * @return button
      */
     public BaseButton run(InventoryClickEvent e) {
         if (this.task != null) this.task.run(e);
