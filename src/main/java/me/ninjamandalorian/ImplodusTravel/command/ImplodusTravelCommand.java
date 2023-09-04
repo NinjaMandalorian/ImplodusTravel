@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.ItemGenerator;
+import me.ninjamandalorian.ImplodusTravel.object.Station;
 
 public class ImplodusTravelCommand implements CommandExecutor {
 
@@ -23,6 +24,13 @@ public class ImplodusTravelCommand implements CommandExecutor {
                 if (sender instanceof Player plr) {
                     if (!plr.hasPermission("implodustravel.admin")) return true;
                     plr.getInventory().addItem(ItemGenerator.getStationItem());
+                    plr.updateInventory();
+                }
+                return true;
+            case "givetoken":
+                if (sender instanceof Player plr) {
+                    if (!plr.hasPermission("implodustravel.admin")) return true;
+                    plr.getInventory().addItem(ItemGenerator.getDiscoveryTokenItem(new Station("testid", "TEST_STATION", plr, null)));
                     plr.updateInventory();
                 }
                 return true;
