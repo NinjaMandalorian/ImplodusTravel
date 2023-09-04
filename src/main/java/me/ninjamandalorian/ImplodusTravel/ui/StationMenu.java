@@ -11,8 +11,17 @@ import me.ninjamandalorian.ImplodusTravel.ui.tasks.InventoryTask;
 import me.ninjamandalorian.ImplodusTravel.ui.tasks.MessageTask;
 import net.md_5.bungee.api.ChatColor;
 
+/**
+ * Class for generating the menus related to stations and their functions.
+ */
 public class StationMenu {
     
+    /**
+     * Creates the primary menu for stations
+     * @param player - Player receiving the menu
+     * @param station - Station of menu
+     * @return - Completed menu
+     */
     public static BaseMenu stationMenu(Player player, Station station) {
         Builder builder = BaseMenu.createBuilder().rows(3);
         builder.fillOutline();
@@ -32,7 +41,7 @@ public class StationMenu {
         );
         BaseTask task;
         if (station.getOwner().equals(player)) {
-            task = new InventoryTask(stationConfigMenu(player, station));
+            task = new InventoryTask(stationConfigMenu(player, station, true));
         } else {
             task = new MessageTask("&cYou do not have permission to use this!");
         }
@@ -52,7 +61,7 @@ public class StationMenu {
         return null;
     }
 
-    public static BaseMenu stationConfigMenu(Player player, Station station) {
+    public static BaseMenu stationConfigMenu(Player player, Station station, boolean returnButton) {
         return null;
     }
 
