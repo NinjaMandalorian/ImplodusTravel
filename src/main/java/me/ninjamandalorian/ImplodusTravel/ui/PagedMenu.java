@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+
+import me.ninjamandalorian.ImplodusTravel.ui.tasks.PageTask;
+import net.md_5.bungee.api.ChatColor;
 
 public class PagedMenu extends BaseMenu {
     
@@ -72,6 +76,27 @@ public class PagedMenu extends BaseMenu {
         private ArrayList<ArrayList<BaseButton>> pageButtons = new ArrayList<ArrayList<BaseButton>>();
         private String openMsg = null;
         // private int bounds[] = {0,54};
+
+        public PagedBuilder title(String title) {
+            this.menuTitle = ChatColor.translateAlternateColorCodes('&', title);
+            return this;
+        }
+        
+        public PagedBuilder setButton(int slot, BaseButton button) {
+            menuButtons.put(slot, button);
+            return this;
+        }
+        
+        public PagedBuilder makePageButtons(int backPosition, int forwardPosition) {
+            menuButtons.put(backPosition, BaseButton.create(Material.GREEN_DYE).name("&ePrevious Page").task(new PageTask(-1)));
+            menuButtons.put(forwardPosition, BaseButton.create(Material.GREEN_DYE).name("&eNext Page").task(new PageTask(1)));
+            return this;
+        }
+        
+        public PagedBuilder openMsg(String msg) {
+            this.openMsg = msg;
+            return this;
+        }
 
     }
 
