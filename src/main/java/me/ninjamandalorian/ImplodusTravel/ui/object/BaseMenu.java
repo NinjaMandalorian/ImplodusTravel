@@ -1,4 +1,4 @@
-package me.ninjamandalorian.ImplodusTravel.ui;
+package me.ninjamandalorian.ImplodusTravel.ui.object;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -9,7 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-import me.ninjamandalorian.ImplodusTravel.ui.tasks.BaseTask;
+import me.ninjamandalorian.ImplodusTravel.ui.task.BaseTask;
 import net.md_5.bungee.api.ChatColor;
 
 public class BaseMenu implements InventoryHolder {

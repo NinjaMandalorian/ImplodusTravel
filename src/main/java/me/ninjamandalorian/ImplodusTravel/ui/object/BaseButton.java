@@ -1,4 +1,4 @@
-package me.ninjamandalorian.ImplodusTravel.ui;
+package me.ninjamandalorian.ImplodusTravel.ui.object;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.ninjamandalorian.ImplodusTravel.ui.tasks.BaseTask;
-import me.ninjamandalorian.ImplodusTravel.ui.tasks.MessageTask;
+import me.ninjamandalorian.ImplodusTravel.ui.task.BaseTask;
+import me.ninjamandalorian.ImplodusTravel.ui.task.MessageTask;
 import net.md_5.bungee.api.ChatColor;
 
 /**

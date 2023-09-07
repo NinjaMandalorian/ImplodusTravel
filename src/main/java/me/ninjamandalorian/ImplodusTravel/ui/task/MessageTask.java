@@ -1,4 +1,4 @@
-package me.ninjamandalorian.ImplodusTravel.ui.tasks;
+package me.ninjamandalorian.ImplodusTravel.ui.task;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

@@ -4,11 +4,13 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import me.ninjamandalorian.ImplodusTravel.object.Station;
-import me.ninjamandalorian.ImplodusTravel.ui.BaseMenu.Builder;
-import me.ninjamandalorian.ImplodusTravel.ui.tasks.BaseTask;
-import me.ninjamandalorian.ImplodusTravel.ui.tasks.CommandTask;
-import me.ninjamandalorian.ImplodusTravel.ui.tasks.InventoryTask;
-import me.ninjamandalorian.ImplodusTravel.ui.tasks.MessageTask;
+import me.ninjamandalorian.ImplodusTravel.ui.object.BaseButton;
+import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu;
+import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu.Builder;
+import me.ninjamandalorian.ImplodusTravel.ui.task.BaseTask;
+import me.ninjamandalorian.ImplodusTravel.ui.task.CommandTask;
+import me.ninjamandalorian.ImplodusTravel.ui.task.InventoryTask;
+import me.ninjamandalorian.ImplodusTravel.ui.task.MessageTask;
 import net.md_5.bungee.api.ChatColor;
 
 /**

@@ -1,9 +1,9 @@
-package me.ninjamandalorian.ImplodusTravel.ui.tasks;
+package me.ninjamandalorian.ImplodusTravel.ui.task;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import me.ninjamandalorian.ImplodusTravel.ui.BaseMenu;
+import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu;
 
 public class InventoryTask implements BaseTask {
 

@@ -1,4 +1,4 @@
-package me.ninjamandalorian.ImplodusTravel.ui;
+package me.ninjamandalorian.ImplodusTravel.ui.object;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,13 +10,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import me.ninjamandalorian.ImplodusTravel.ui.tasks.PageTask;
+import me.ninjamandalorian.ImplodusTravel.ui.task.PageTask;
 import net.md_5.bungee.api.ChatColor;
 
 public class PagedMenu extends BaseMenu {
     
     // Paged menu fields
     private ArrayList<ArrayList<BaseButton>> pages = null; // If null, menu is not paged
+    
     private int currentPage = 0;
     
 
