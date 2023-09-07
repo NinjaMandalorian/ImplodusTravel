@@ -87,6 +87,15 @@ public class PagedMenu extends BaseMenu {
             return this;
         }
         
+        /**
+         * Splits buttons into pages for the menu.
+         * @param buttonList - List of buttons entered
+         * @return Builder
+         */
+        public PagedBuilder setContents(ArrayList<BaseButton> buttonList) {
+            return this;
+        }
+        
         public PagedBuilder makePageButtons(int backPosition, int forwardPosition) {
             menuButtons.put(backPosition, BaseButton.create(Material.GREEN_DYE).name("&ePrevious Page").task(new PageTask(-1)));
             menuButtons.put(forwardPosition, BaseButton.create(Material.GREEN_DYE).name("&eNext Page").task(new PageTask(1)));
