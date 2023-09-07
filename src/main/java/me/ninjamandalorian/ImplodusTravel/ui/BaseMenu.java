@@ -1,20 +1,15 @@
 package me.ninjamandalorian.ImplodusTravel.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import me.ninjamandalorian.ImplodusTravel.ui.tasks.BaseTask;
-import me.ninjamandalorian.ImplodusTravel.ui.tasks.PageTask;
 import net.md_5.bungee.api.ChatColor;
 
 public class BaseMenu implements InventoryHolder {
@@ -64,15 +59,6 @@ public class BaseMenu implements InventoryHolder {
         return new Builder();
     }
     
-    
-    /**
-     * Creates a paged builder
-     * @return Builder
-     */
-    public static PagedBuilder createPagedBuilder() {
-        return new PagedBuilder();
-    }
-    
     /**
      * Menu Builder
      */
@@ -82,7 +68,7 @@ public class BaseMenu implements InventoryHolder {
         private HashMap<Integer,BaseButton> menuButtons = new HashMap<Integer,BaseButton>();
         private String openMsg = null;
         
-        Builder() {}
+        public Builder() {}
         
         public Builder title(String title) {
             this.menuTitle = ChatColor.translateAlternateColorCodes('&', title);
@@ -163,79 +149,7 @@ public class BaseMenu implements InventoryHolder {
     /**
      * Constructor for extensions (PagedMenu)
      */
-    protected BaseMenu() {}
-    
-    /**
-     * Paged Menu Builder 
-     * <br> NOTE: These are always 6 rows tall for calculation reasons.
-     * @author NinjaMandalorian
-     *
-     */
-    public static class PagedBuilder {
-        private String menuTitle = "ip-title";
-        private int menuSize = 54;
-        private HashMap<Integer,BaseButton> menuButtons = new HashMap<Integer,BaseButton>();
-        private ArrayList<ArrayList<BaseButton>> pageButtons = new ArrayList<ArrayList<BaseButton>>();
-        private String openMsg = null;
-        
-        PagedBuilder() {
-            List<Integer> outlineSlots = Arrays.asList(0,1,2,3,4,5,6,7,8,9,17,18,26,27,35,36,44,
-            45,46,47,48,49,50,51,52,53);
-            for (Integer slot : outlineSlots) {
-                menuButtons.put(slot, BaseButton.background());
-            }
-        }
-        
-        public PagedBuilder title(String title) {
-            this.menuTitle = ChatColor.translateAlternateColorCodes('&', title);
-            return this;
-        }
-        
-        public PagedBuilder setButton(int slot, BaseButton button) {
-            menuButtons.put(slot, button);
-            return this;
-        }
-        
-        /**
-         * Splits buttons into pages for the menu.
-         * @param buttonList - List of buttons entered
-         * @return Builder
-         */
-        public PagedBuilder setContents(ArrayList<BaseButton> buttonList) {
-            int pageNum = Math.floorDiv(buttonList.size(), 28) + 1;
-            
-            for (int i = 0; i < pageNum; i++) {
-                ArrayList<BaseButton> page = new ArrayList<BaseButton>();
-                
-                for (int j = 0; j < 28; j++) {
-                    if (28 * i + j >= buttonList.size()) break; 
-                    page.add(buttonList.get(28 * i + j));
-                }
-                pageButtons.add(page);
-            }
-            
-            return this;
-        }
-        
-        public PagedBuilder makePageButtons() {
-            menuButtons.put(48, BaseButton.create(Material.GREEN_DYE).name("&ePrevious Page").task(new PageTask(-1)));
-            menuButtons.put(50, BaseButton.create(Material.GREEN_DYE).name("&eNext Page").task(new PageTask(1)));
-            return this;
-        }
-        
-        public PagedBuilder openMsg(String msg) {
-            this.openMsg = msg;
-            return this;
-        }
-    }
-    
-    // /**
-    //  * Builds menu using paged builder
-    //  * @param pagedBuilder - Builder used
-    //  */
-    // private BaseMenu(PagedBuilder pagedBuilder) {
-    //     this.inventory = Bukkit.createInventory(this, pagedBuilder.menuSize, pagedBuilder.menuTitle);
-        
+    protected BaseMenu() {}    
         
     // }
 }

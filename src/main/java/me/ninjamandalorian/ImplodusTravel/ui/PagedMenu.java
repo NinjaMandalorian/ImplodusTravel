@@ -68,14 +68,19 @@ public class PagedMenu extends BaseMenu {
         }
     }
     
-
-    public class PagedBuilder {
+    public static PagedBuilder createPagedBuilder() {
+        return new PagedBuilder();
+    }
+    
+    public static class PagedBuilder {
         private String menuTitle = "Empty-title";
         private int menuSize = 54;
         private HashMap<Integer,BaseButton> menuButtons = new HashMap<Integer,BaseButton>();
         private ArrayList<ArrayList<BaseButton>> pageButtons = new ArrayList<ArrayList<BaseButton>>();
         private String openMsg = null;
         // private int bounds[] = {0,54};
+
+        public PagedBuilder() {};
 
         public PagedBuilder title(String title) {
             this.menuTitle = ChatColor.translateAlternateColorCodes('&', title);
@@ -93,6 +98,7 @@ public class PagedMenu extends BaseMenu {
          * @return Builder
          */
         public PagedBuilder setContents(ArrayList<BaseButton> buttonList) {
+            // TODO CREATE CONTENT SORTER
             return this;
         }
         
