@@ -20,13 +20,9 @@ import net.md_5.bungee.api.ChatColor;
 public class BaseMenu implements InventoryHolder {
     
     // Menu fields
-    private Inventory inventory;
-    private HashMap<Integer,BaseButton> menuButtons;
-    private String openMessage = null;
-    
-    // Paged menu fields
-    private ArrayList<ArrayList<BaseButton>> pages = null; // If null, menu is not paged
-    private int currentPage = 0;
+    protected Inventory inventory;
+    protected HashMap<Integer,BaseButton> menuButtons;
+    protected String openMessage = null;
     
     // MENU FUNCTIONS //
     
@@ -56,38 +52,6 @@ public class BaseMenu implements InventoryHolder {
     public BaseButton getButton(int slotNum) {
         if (slotNum > this.inventory.getSize() - 1) return null;
         return this.menuButtons.get(slotNum);
-    }
-    
-    
-    // PAGED MENU FUNCTIONS //
-    
-    public void changePage(Player player, int direction) {
-        if (pages == null) return;
-        currentPage += direction;
-        currentPage = Math.max(currentPage, 0);
-        currentPage = Math.min(currentPage, pages.size() -1);
-        
-        loadPage(currentPage);
-    }
-    
-    private void loadPage(int pageNum) {
-        // TODO Logger.debug("LOADING PAGE " + pageNum);
-        List<Integer> slotList = Arrays.asList(
-                10,11,12,13,14,15,16,
-                19,20,21,22,23,24,25,
-                28,29,30,31,32,33,34,
-                37,38,39,40,41,42,43);
-        
-        ArrayList<BaseButton> pageButtons = pages.get(pageNum);
-        for (int i = 0; i < 28; i++) {
-            if (i < pageButtons.size()) {
-                inventory.setItem(slotList.get(i), pageButtons.get(i).getItemStack());
-                menuButtons.put(slotList.get(i), pageButtons.get(i));
-            } else {
-                inventory.setItem(slotList.get(i), null);
-                menuButtons.remove(slotList.get(i));
-            }
-        }
     }
     
     // BUILDERS FOR MENUS //
@@ -195,6 +159,11 @@ public class BaseMenu implements InventoryHolder {
         this.menuButtons = builder.menuButtons;
         this.openMessage = builder.openMsg;
     }
+
+    /**
+     * Constructor for extensions (PagedMenu)
+     */
+    protected BaseMenu() {}
     
     /**
      * Paged Menu Builder 
@@ -258,29 +227,15 @@ public class BaseMenu implements InventoryHolder {
             this.openMsg = msg;
             return this;
         }
-        
-        public BaseMenu build() {
-            return new BaseMenu(this);
-        }
     }
     
-    /**
-     * Builds menu using paged builder
-     * @param pagedBuilder - Builder used
-     */
-    private BaseMenu(PagedBuilder pagedBuilder) {
-        this.inventory = Bukkit.createInventory(this, pagedBuilder.menuSize, pagedBuilder.menuTitle);
+    // /**
+    //  * Builds menu using paged builder
+    //  * @param pagedBuilder - Builder used
+    //  */
+    // private BaseMenu(PagedBuilder pagedBuilder) {
+    //     this.inventory = Bukkit.createInventory(this, pagedBuilder.menuSize, pagedBuilder.menuTitle);
         
-        // Creates all items in inventory
-        for (Entry<Integer, BaseButton> buttonEntry : pagedBuilder.menuButtons.entrySet()) {
-            if (buttonEntry.getKey() >= pagedBuilder.menuSize) continue;
-            inventory.setItem(buttonEntry.getKey(), buttonEntry.getValue().getItemStack());
-        }
         
-        this.menuButtons = pagedBuilder.menuButtons;
-        this.openMessage = pagedBuilder.openMsg;
-        
-        this.pages = pagedBuilder.pageButtons;
-        this.loadPage(0);
-    }
+    // }
 }
