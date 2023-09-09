@@ -31,7 +31,7 @@ public class StationMenu {
         builder.setButton(
             11, 
             BaseButton.create(Material.COMPASS)
-                .name("&9Add stations")
+                .name("&bAdd new station")
                 .lore(colorMsg("&cWarning: Consumes all tokens."))
                 .task(new CommandTask("/implodustravel addtokens " + station.getId()).autoClose())
         );
@@ -39,7 +39,7 @@ public class StationMenu {
             13,
             BaseButton.create(Material.FILLED_MAP)
                 .name("&aOpen station list")
-                .task(new InventoryTask(stationListMenu(player, station)))
+                .task(new InventoryTask(stationListMenu(player, station, true)))
         );
         BaseTask task;
         if (station.getOwner().equals(player)) {
@@ -59,8 +59,8 @@ public class StationMenu {
         return builder.build();
     }
 
-    public static BaseMenu stationListMenu(Player player, Station station) {
-        return null;
+    public static BaseMenu stationListMenu(Player player, Station station, boolean returnButton) {
+        return BaseMenu.createBuilder().rows(4).build();
     }
 
     public static BaseMenu stationConfigMenu(Player player, Station station, boolean returnButton) {
