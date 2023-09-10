@@ -31,6 +31,7 @@ public class PersistentDataController {
         if (state instanceof PersistentDataHolder holder) {
             holder.getPersistentDataContainer().set(customKey, PersistentDataType.INTEGER, 1);
         }
+        state.update();
     }
 
 }
