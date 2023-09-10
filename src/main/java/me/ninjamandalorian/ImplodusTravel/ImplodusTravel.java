@@ -5,6 +5,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.ninjamandalorian.ImplodusTravel.command.*;
+import me.ninjamandalorian.ImplodusTravel.listener.BlockListener;
 import me.ninjamandalorian.ImplodusTravel.listener.InventoryListener;
 import me.ninjamandalorian.ImplodusTravel.listener.PlayerListener;
 import net.milkbowl.vault.economy.Economy;
@@ -26,6 +27,7 @@ public class ImplodusTravel extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new PlayerListener(), instance); 
         pluginManager.registerEvents(new InventoryListener(), instance);
+        pluginManager.registerEvents(new BlockListener(), instance);
     }
 
     @Override
