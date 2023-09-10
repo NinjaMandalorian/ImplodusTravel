@@ -1,7 +1,6 @@
 package me.ninjamandalorian.ImplodusTravel.listener;
 
 import org.bukkit.Nameable;
-import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
@@ -10,8 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import net.md_5.bungee.api.ChatColor;
 
