@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 
 public class PlayerListener implements Listener {
     
@@ -25,7 +26,7 @@ public class PlayerListener implements Listener {
 
         if (block.getState() instanceof Banner banner) {
             
-            // TODO If NOT station return
+            if (!PersistentDataController.isStationBlock(block)) return;
             Action action = e.getAction();
             if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                 e.setCancelled(true);
