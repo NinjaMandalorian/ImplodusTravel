@@ -33,7 +33,7 @@ public class StationMenu {
             BaseButton.create(Material.COMPASS)
                 .name("&bAdd new station")
                 .lore(colorMsg("&cWarning: Consumes all tokens."))
-                .task(new CommandTask("/implodustravel addtokens " + station.getId()).autoClose())
+                .task(new CommandTask("/implodustravel addtokens " + station.getIdString()).autoClose())
         );
         builder.setButton(
             13,

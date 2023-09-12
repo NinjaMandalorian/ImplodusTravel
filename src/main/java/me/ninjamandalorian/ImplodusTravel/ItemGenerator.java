@@ -35,7 +35,7 @@ public class ItemGenerator {
         meta.setLore(Arrays.asList(colorMsg("&bUse this at any station to grant travel!"), colorMsg("&4One-use only.")));
 
         PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
-        dataContainer.set(new NamespacedKey(ImplodusTravel.getInstance(), "stationTokenId"), PersistentDataType.STRING, discoveredStation.getId());
+        dataContainer.set(new NamespacedKey(ImplodusTravel.getInstance(), "stationTokenId"), PersistentDataType.STRING, discoveredStation.getIdString());
 
         tokenStack.setItemMeta(meta);
         return tokenStack;
