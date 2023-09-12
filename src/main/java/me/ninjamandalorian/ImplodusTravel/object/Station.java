@@ -1,5 +1,8 @@
 package me.ninjamandalorian.ImplodusTravel.object;
 
+import java.util.Set;
+import java.util.UUID;
+
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Banner;
@@ -10,7 +13,11 @@ import org.bukkit.block.Banner;
  */
 public class Station {
     
-    private String id; // Station id
+    // Static Fields
+    private static Set<Station> stations;
+
+    // Instance fields
+    private UUID id; // Station id
     private String displayName; // Station display name
     private OfflinePlayer owner; // Station owner
     private Banner stationBanner; // Station banner
@@ -23,7 +30,7 @@ public class Station {
      * @param owner
      * @param stationBanner
      */
-    public Station(String id, String displayName, OfflinePlayer owner, Banner stationBanner) {
+    public Station(UUID id, String displayName, OfflinePlayer owner, Banner stationBanner) {
         this.id = id;
         this.displayName = displayName;
         this.owner = owner;
@@ -34,8 +41,16 @@ public class Station {
      * Get the id of the station
      * @return station id
      */
-    public String getId() {
+    public UUID getId() {
         return id;
+    }
+
+    /**
+     * Get the id of the station as a string
+     * @return station id
+     */
+    public String getIdString() {
+        return id.toString();
     }
     
     /**
