@@ -66,7 +66,8 @@ public class BlockListener implements Listener {
             block.getLocation(),
             player.getLocation()
         );
-
+        
+        player.sendMessage("created station - " + newStation.getDisplayName() + " : " + newStation.getIdString());
         
     }
     
