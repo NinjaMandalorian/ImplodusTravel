@@ -1,6 +1,7 @@
 package me.ninjamandalorian.ImplodusTravel.object;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ import org.bukkit.OfflinePlayer;
 public class Station {
     
     // Static Fields
-    private static HashMap<UUID, Station> stations;
+    private static HashMap<UUID, Station> stations = new HashMap<>();
 
     // Instance fields
     private UUID id; // Station id
@@ -101,6 +102,11 @@ public class Station {
         this.owner = newPlayer;
     }
 
+    @Override
+    public String toString() {
+        return "";
+    }
+
     // Static methods
 
     public static Station getStation(UUID uuid) {
@@ -124,7 +130,7 @@ public class Station {
         return returnList;
     }
 
-    public static ArrayList<Station> getStations() {
-        return (ArrayList<Station>) stations.values();
+    public static Collection<Station> getStations() {
+        return stations.values();
     }
 }
