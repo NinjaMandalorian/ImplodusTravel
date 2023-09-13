@@ -1,5 +1,7 @@
 package me.ninjamandalorian.ImplodusTravel.listener;
 
+import java.util.UUID;
+
 import org.bukkit.Nameable;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -10,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
+import me.ninjamandalorian.ImplodusTravel.object.Station;
 import net.md_5.bungee.api.ChatColor;
 
 public class BlockListener implements Listener {
@@ -51,13 +54,20 @@ public class BlockListener implements Listener {
 
         Block block = e.getBlock();
         PersistentDataController.giveCustomTag(block);
-        player.sendMessage("" + block.getType().toString() + (block.getState() instanceof Nameable ));
         BlockState state = block.getState();
         Nameable nameable = (Nameable) state;
         nameable.setCustomName("Banner");
         state.update();
         
+        Station newStation = new Station(
+            UUID.randomUUID(),
+            "Station " + (Station.getStations().size()+1) ,
+            player,
+            block.getLocation(),
+            player.getLocation()
+        );
 
+        
     }
     
 }

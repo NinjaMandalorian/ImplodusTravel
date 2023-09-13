@@ -1,11 +1,11 @@
 package me.ninjamandalorian.ImplodusTravel.object;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.block.Banner;
 
 /**
  * Station class is the object for transport locations. <p>
@@ -14,27 +14,34 @@ import org.bukkit.block.Banner;
 public class Station {
     
     // Static Fields
-    private static Set<Station> stations;
+    private static HashMap<UUID, Station> stations;
 
     // Instance fields
     private UUID id; // Station id
     private String displayName; // Station display name
     private OfflinePlayer owner; // Station owner
-    private Banner stationBanner; // Station banner
+    private Location stationLocation; // Station location
     private Location teleportLocation; // Station's tp location
 
     /**
-     * Create a station
      * @param id
      * @param displayName
      * @param owner
-     * @param stationBanner
+     * @param location
      */
-    public Station(UUID id, String displayName, OfflinePlayer owner, Banner stationBanner) {
+    public Station(UUID id, String displayName, OfflinePlayer owner, Location location, Location destination) {
         this.id = id;
         this.displayName = displayName;
         this.owner = owner;
-        this.stationBanner = stationBanner;
+        this.stationLocation = location;
+        this.teleportLocation = destination;
+
+        // Ensure unique UUID for new station
+        while (stations.containsKey(this.id)) {
+            this.id = UUID.randomUUID();
+        }
+        
+        stations.put(this.id, this); // Add to station registry
     }
 
     /**
@@ -70,11 +77,11 @@ public class Station {
     }
 
     /**
-     * Gets the station's banner
-     * @return station banner
+     * Gets the station location
+     * @return station location
      */
-    public Banner getStationBanner() {
-        return stationBanner;
+    public Location getStationLocation() {
+        return stationLocation;
     }
 
     /**
@@ -94,4 +101,30 @@ public class Station {
         this.owner = newPlayer;
     }
 
+    // Static methods
+
+    public static Station getStation(UUID uuid) {
+        return stations.get(uuid);
+    }
+
+    public static Station getStation(Location location) { 
+        for (Station station : stations.values()) {
+            if (station.getStationLocation().equals(location)) return station;
+        }
+        return null;
+    }
+
+    public static ArrayList<Station> getPlayerStations(OfflinePlayer player) {
+        ArrayList<Station> returnList = new ArrayList<>();
+
+        for (Station station : stations.values()) {
+            if (station.getOwner().equals(player)) returnList.add(station);
+        }
+
+        return returnList;
+    }
+
+    public static ArrayList<Station> getStations() {
+        return (ArrayList<Station>) stations.values();
+    }
 }

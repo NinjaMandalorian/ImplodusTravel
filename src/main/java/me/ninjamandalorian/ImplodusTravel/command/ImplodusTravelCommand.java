@@ -33,14 +33,14 @@ public class ImplodusTravelCommand implements CommandExecutor {
             case "givetoken":
                 if (sender instanceof Player plr) {
                     if (!plr.hasPermission("implodustravel.admin")) return true;
-                    plr.getInventory().addItem(ItemGenerator.getDiscoveryTokenItem(new Station(UUID.randomUUID(), "TEST_STATION", plr, null)));
+                    plr.getInventory().addItem(ItemGenerator.getDiscoveryTokenItem(new Station(UUID.randomUUID(), "TEST_STATION", plr, null, null)));
                     plr.updateInventory();
                 }
                 return true;
             case "opentest":
                 if (sender instanceof Player plr) {
                     if (!plr.hasPermission("implodustravel.admin")) return true;
-                    StationMenu.stationMenu(plr, new Station(UUID.randomUUID(), "TEST_STATION", plr, null)).open(plr);
+                    StationMenu.stationMenu(plr, new Station(UUID.randomUUID(), "TEST_STATION", plr, null, null)).open(plr);
                 }
                 return true;
         }
