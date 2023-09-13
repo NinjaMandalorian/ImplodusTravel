@@ -2,6 +2,7 @@ package me.ninjamandalorian.ImplodusTravel.listener;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -10,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
+import me.ninjamandalorian.ImplodusTravel.object.Station;
+import me.ninjamandalorian.ImplodusTravel.ui.StationMenu;
 
 public class PlayerListener implements Listener {
     
@@ -30,8 +33,12 @@ public class PlayerListener implements Listener {
             Action action = e.getAction();
             if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                 e.setCancelled(true);
-                // TODO Open menu
-                player.sendMessage("OPEN MENU");
+                Station station = Station.getStation(block.getLocation());
+                if (station == null) {
+                    Bukkit.getLogger().info("[IMPLODUSTRAVEL] ERROR: BANNER AT " + block.getLocation() + " HAS MARK BUT NO OBJECT");
+                    return;
+                }
+                StationMenu.stationMenu(player, station).open(player);
             }
         }
         
