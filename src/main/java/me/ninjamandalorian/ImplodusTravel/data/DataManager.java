@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
+import me.ninjamandalorian.ImplodusTravel.Logger;
+
 public class DataManager {
 	
     private static DumperOptions options;
@@ -47,7 +49,7 @@ public class DataManager {
             yaml.dump(map, writer);
             writer.close();
         } catch (FileNotFoundException e) {
-            // ImplodusTravel.logger.log("Encountered error when creating PrintWriter for " + filePath);
+            Logger.log("Encountered error when creating PrintWriter for " + filePath);
         }
 	}
 	
@@ -60,7 +62,7 @@ public class DataManager {
         
         File file = getFile(filePath);
         if (!file.exists()) {
-            // ImplodusTravel.logger.log("Attempted to retrieve non-existant file: " + filePath);
+            Logger.log("Attempted to retrieve non-existent file: " + filePath);
             return null;
         }
         
@@ -76,7 +78,7 @@ public class DataManager {
         try {
             inputStream.close();
         } catch (IOException e) {
-            // ImplodusTravel.logger.log(e.getMessage());
+            Logger.log(e.getMessage());
         }
         
         return data;
@@ -86,14 +88,13 @@ public class DataManager {
         File file = getFile(filePath);
         
         if (!file.exists()) {
-            // ImplodusTravel.logger.log("Attempted to retrieve non-existant file: " + filePath + ".yml");
+            Logger.log("Attempted to retrieve non-existent file: " + filePath + ".yml");
             return false;
         }
         
         try {
             return Files.deleteIfExists(file.toPath());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         }
@@ -112,7 +113,7 @@ public class DataManager {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                // ImplodusTravel.logger.log("Encountered error when creating file - " + path);
+                Logger.log("Encountered error when creating file - " + path);
                 return null;
             }
         }

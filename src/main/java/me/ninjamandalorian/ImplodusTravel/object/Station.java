@@ -8,6 +8,8 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
+import me.ninjamandalorian.ImplodusTravel.Logger;
+
 /**
  * Station class is the object for transport locations. <p>
  * Contains both basic data & owner options
@@ -98,7 +100,7 @@ public class Station {
      * @param newPlayer - New owner
      */
     public void transferOwnership(OfflinePlayer newPlayer) {
-        // TODO Log transfer
+        Logger.log("Station " + this.getIdString() + " transferred from " + this.owner.getUniqueId() + " to " + newPlayer.getUniqueId());
         this.owner = newPlayer;
     }
 

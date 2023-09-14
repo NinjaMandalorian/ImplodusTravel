@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.ui.task.PageTask;
 import net.md_5.bungee.api.ChatColor;
 
@@ -50,7 +51,7 @@ public class PagedMenu extends BaseMenu {
     }
     
     private void loadPage(int pageNum) {
-        // TODO Logger.debug("LOADING PAGE " + pageNum);
+        Logger.debug("LOADING PAGE " + pageNum);
         List<Integer> slotList = Arrays.asList(
                 10,11,12,13,14,15,16,
                 19,20,21,22,23,24,25,
