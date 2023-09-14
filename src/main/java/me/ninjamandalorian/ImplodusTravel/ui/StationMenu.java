@@ -1,16 +1,21 @@
 package me.ninjamandalorian.ImplodusTravel.ui;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import me.ninjamandalorian.ImplodusTravel.object.Station;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseButton;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu;
+import me.ninjamandalorian.ImplodusTravel.ui.object.Buildable;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu.Builder;
 import me.ninjamandalorian.ImplodusTravel.ui.task.BaseTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.CommandTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.InventoryTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.MessageTask;
+import me.ninjamandalorian.ImplodusTravel.ui.task.RunnableTask;
 import net.md_5.bungee.api.ChatColor;
 
 /**
@@ -60,6 +65,35 @@ public class StationMenu {
     }
 
     public static Buildable stationListMenu(Player player, Station station, boolean returnButton) {
+        // TODO improve list (design)
+        // Paged menu (setContents with stationButtons?)
+        // click -> teleport attempt
+        // Outline? yes/no?
+        // page buttons
+        Builder builder = BaseMenu.createBuilder().rows(4).title(station.getDisplayName() + " - List");
+
+        ArrayList<BaseButton> stationButtons = new ArrayList<>();
+        ArrayList<UUID> unlockedStations = station.getDestinations();
+        ArrayList<Station> nearbyStations = Station.getStationsInRange(station, 5000.0);
+        for (Station stationEntry : nearbyStations) {
+            if (stationEntry.equals(station)) continue;
+            BaseButton button = BaseButton.create(Material.PAPER);
+            if (unlockedStations.contains(stationEntry.getId())) {
+                button.glow();
+            }
+            button.name("&b" + stationEntry.getDisplayName());
+            button.task(new RunnableTask(() -> {
+                station.addDestination(stationEntry);
+            }));
+
+            stationButtons.add(button);
+        }
+
+        for (int i = 0; i < stationButtons.size(); i++) {
+            builder.setButton(i, stationButtons.get(i));
+        }
+
+        return builder;
     }
 
     public static Buildable stationConfigMenu(Player player, Station station, boolean returnButton) {
