@@ -4,18 +4,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu;
-import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu.Builder;
+import me.ninjamandalorian.ImplodusTravel.ui.object.Buildable;
 
 public class InventoryTask implements BaseTask {
 
     private BaseMenu menu;
-    private Builder builder;
+    private Buildable builder;
     
     public InventoryTask(BaseMenu menu) {
         this.menu = menu;
     }
 
-    public InventoryTask(Builder builder) {
+    public InventoryTask(Buildable builder) {
         this.builder = builder;
     }
     

@@ -62,7 +62,7 @@ public class BaseMenu implements InventoryHolder {
     /**
      * Menu Builder
      */
-    public static class Builder {
+    public static class Builder implements Buildable {
         private String menuTitle = "ip-title";
         private int menuSize = 54;
         private HashMap<Integer,BaseButton> menuButtons = new HashMap<Integer,BaseButton>();

@@ -74,7 +74,7 @@ public class PagedMenu extends BaseMenu {
         return new PagedBuilder();
     }
     
-    public static class PagedBuilder {
+    public static class PagedBuilder implements Buildable {
         private String menuTitle = "Empty-title";
         private int menuSize = 54;
         private HashMap<Integer,BaseButton> menuButtons = new HashMap<Integer,BaseButton>();
@@ -113,6 +113,11 @@ public class PagedMenu extends BaseMenu {
         public PagedBuilder openMsg(String msg) {
             this.openMsg = msg;
             return this;
+        }
+
+        @Override
+        public BaseMenu build() {
+            return new PagedMenu(this);
         }
 
     }

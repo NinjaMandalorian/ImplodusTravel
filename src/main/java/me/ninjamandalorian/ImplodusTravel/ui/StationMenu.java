@@ -59,11 +59,10 @@ public class StationMenu {
         return builder.build();
     }
 
-    public static Builder stationListMenu(Player player, Station station, boolean returnButton) {
-        return BaseMenu.createBuilder().rows(4).title(station.getDisplayName() + " - List");
+    public static Buildable stationListMenu(Player player, Station station, boolean returnButton) {
     }
 
-    public static Builder stationConfigMenu(Player player, Station station, boolean returnButton) {
+    public static Buildable stationConfigMenu(Player player, Station station, boolean returnButton) {
         return BaseMenu.createBuilder().rows(6).fillOutline().title("Configure Station");
     }
 
