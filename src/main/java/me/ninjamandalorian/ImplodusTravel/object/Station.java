@@ -25,8 +25,9 @@ public class Station {
     private OfflinePlayer owner; // Station owner
     private Location stationLocation; // Station location
     private Location teleportLocation; // Station's tp location
+    private ArrayList<UUID> destinationStations = new ArrayList<>(); // Unlocked destinations
 
-    /**
+    /** Constructor method
      * @param id
      * @param displayName
      * @param owner
@@ -47,7 +48,7 @@ public class Station {
         stations.put(this.id, this); // Add to station registry
     }
 
-    /**
+    /** UUID accessor
      * Get the id of the station
      * @return station id
      */
@@ -55,7 +56,7 @@ public class Station {
         return id;
     }
 
-    /**
+    /** UUID string accessor
      * Get the id of the station as a string
      * @return station id
      */
@@ -63,7 +64,7 @@ public class Station {
         return id.toString();
     }
     
-    /**
+    /** Display name accessor
      * Gets the display name of the station
      * @return station display name
      */
@@ -71,7 +72,7 @@ public class Station {
         return displayName;
     }
     
-    /**
+    /** Owner OfflinePlayer accessor
      * Gets the current owner of the station
      * @return station owner
      */
@@ -93,6 +94,18 @@ public class Station {
      */
     public Location getTeleportLocation() {
         return teleportLocation;
+    }
+
+    public ArrayList<UUID> getDestinations() {
+        return destinationStations;
+    }
+
+    public void addDestination(UUID uuid) {
+        destinationStations.add(uuid);
+    }
+
+    public void addDestination(Station station) {
+        destinationStations.add(station.getId());
     }
 
     /**
@@ -135,4 +148,19 @@ public class Station {
     public static Collection<Station> getStations() {
         return stations.values();
     }
+
+    public static ArrayList<Station> getStationsInRange(Station station, Double range) {
+        return getStationsInRange(station.getStationLocation(), range);
+    }
+
+    private static ArrayList<Station> getStationsInRange(Location loc, Double range) {
+        ArrayList<Station> returnList = new ArrayList<>();
+
+        for (Station station : stations.values()) {
+            if (station.getTeleportLocation().distance(loc) <= range) returnList.add(station);
+        }
+
+        return returnList;
+    }
+
 }
