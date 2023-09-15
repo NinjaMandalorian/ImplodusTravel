@@ -117,6 +117,15 @@ public class Station {
         this.owner = newPlayer;
     }
 
+    /**
+     * Gets all stations within a range of this station
+     * @param range maximum distance (circular)
+     * @return
+     */
+    public ArrayList<Station> getStationsInRange(Double range) {
+        return getStationsInRange(this, range);
+    }
+
     @Override
     public String toString() {
         return "";
@@ -157,7 +166,9 @@ public class Station {
         ArrayList<Station> returnList = new ArrayList<>();
 
         for (Station station : stations.values()) {
-            if (station.getTeleportLocation().distance(loc) <= range) returnList.add(station);
+            if (station.getTeleportLocation().getWorld().equals(loc.getWorld())) {
+                if (station.getTeleportLocation().distance(loc) <= range) returnList.add(station);
+            }
         }
 
         return returnList;
