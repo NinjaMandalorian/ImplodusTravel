@@ -3,6 +3,7 @@ package me.ninjamandalorian.ImplodusTravel.ui;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -72,22 +73,7 @@ public class StationMenu {
         // page buttons
         Builder builder = BaseMenu.createBuilder().rows(4).title(station.getDisplayName() + " - List");
 
-        ArrayList<BaseButton> stationButtons = new ArrayList<>();
-        ArrayList<UUID> unlockedStations = station.getDestinations();
-        ArrayList<Station> nearbyStations = Station.getStationsInRange(station, 5000.0);
-        for (Station stationEntry : nearbyStations) {
-            if (stationEntry.equals(station)) continue;
-            BaseButton button = BaseButton.create(Material.PAPER);
-            if (unlockedStations.contains(stationEntry.getId())) {
-                button.glow();
-            }
-            button.name("&b" + stationEntry.getDisplayName());
-            button.task(new RunnableTask(() -> {
-                station.addDestination(stationEntry);
-            }));
-
-            stationButtons.add(button);
-        }
+        ArrayList<BaseButton> stationButtons = generateStations(player, station);
 
         for (int i = 0; i < stationButtons.size(); i++) {
             builder.setButton(i, stationButtons.get(i));
@@ -98,6 +84,37 @@ public class StationMenu {
 
     public static Buildable stationConfigMenu(Player player, Station station, boolean returnButton) {
         return BaseMenu.createBuilder().rows(6).fillOutline().title("Configure Station");
+    }
+
+    private static ArrayList<BaseButton> generateStations(Player player, Station station) {
+        ArrayList<BaseButton> stationButtons = new ArrayList<BaseButton>();
+
+        ArrayList<Station> nearbyStations = Station.getStationsInRange(station, 5000.0);
+        for (Station stationEntry : nearbyStations) {
+            if (stationEntry.equals(station)) continue;
+            BaseButton button = generateStationButton(player, station, stationEntry);
+            if (button != null) stationButtons.add(button);
+        }
+        return stationButtons;
+    }
+
+    private static BaseButton generateStationButton(Player player, Station source, Station dest) {
+        BaseButton button = BaseButton.create(Material.PAPER);
+        if (source.getDestinations().contains(dest.getId())) { // Is unlocked
+            button.glow();
+            button.task(new RunnableTask(() -> {
+                dest.teleportPlayer(player);
+            }));
+        } else { // Is NOT unlocked
+            // TODO - DEBUG TOOL TO ADD TO UNLOCKED
+            button.task(new RunnableTask(() -> {
+                source.addDestination(dest);
+                Bukkit.broadcastMessage("ADD "+dest.getDisplayName()+" TO "+source.getDisplayName());
+            }));        
+        }
+        button.name("&b" + dest.getDisplayName());
+        
+        return button;
     }
 
     private static String colorMsg(String msg) {

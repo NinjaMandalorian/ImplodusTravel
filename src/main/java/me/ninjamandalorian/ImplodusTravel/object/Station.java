@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import me.ninjamandalorian.ImplodusTravel.Logger;
 
@@ -124,6 +125,13 @@ public class Station {
      */
     public ArrayList<Station> getStationsInRange(Double range) {
         return getStationsInRange(this, range);
+    }
+
+    public void teleportPlayer(Player player) {
+        // TODO debug teleport
+        // add wait time w/ movement cancel
+        // add permissions
+        player.teleport(this.teleportLocation);
     }
 
     @Override
