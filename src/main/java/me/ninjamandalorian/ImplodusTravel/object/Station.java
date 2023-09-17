@@ -131,7 +131,7 @@ public class Station {
         // TODO debug teleport
         // add wait time w/ movement cancel
         // add permissions
-        player.teleport(this.teleportLocation);
+        PlayerController.startTeleport(player, this.teleportLocation, 3);
     }
 
     @Override

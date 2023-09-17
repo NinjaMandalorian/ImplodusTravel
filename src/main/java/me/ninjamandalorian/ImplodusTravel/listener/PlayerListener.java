@@ -10,7 +10,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
+import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
 import me.ninjamandalorian.ImplodusTravel.ui.StationMenu;
 
@@ -42,6 +45,11 @@ public class PlayerListener implements Listener {
             }
         }
         
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent e) {
+        PlayerController.playerMoved(e);
     }
 
 }
