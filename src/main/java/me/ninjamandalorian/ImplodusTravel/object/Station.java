@@ -5,11 +5,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import me.ninjamandalorian.ImplodusTravel.Logger;
+import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
+import me.ninjamandalorian.ImplodusTravel.event.PreTransportEvent;
 
 /**
  * Station class is the object for transport locations. <p>
@@ -127,10 +130,13 @@ public class Station {
         return getStationsInRange(this, range);
     }
 
-    public void teleportPlayer(Player player) {
+    public void teleportPlayer(Player player, Station source) {
         // TODO debug teleport
         // add wait time w/ movement cancel
         // add permissions
+        PreTransportEvent preEvent = new PreTransportEvent(player, source, this);
+        Bukkit.getServer().getPluginManager().callEvent(preEvent);
+        if (preEvent.isCancelled()) return;
         PlayerController.startTeleport(player, this.teleportLocation, 3);
     }
 

@@ -1,8 +1,6 @@
 package me.ninjamandalorian.ImplodusTravel.ui;
 
 import java.util.ArrayList;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -103,7 +101,7 @@ public class StationMenu {
         if (source.getDestinations().contains(dest.getId())) { // Is unlocked
             button.glow();
             button.task(new RunnableTask(() -> {
-                dest.teleportPlayer(player);
+                dest.teleportPlayer(player, source);
             }));
         } else { // Is NOT unlocked
             // TODO - DEBUG TOOL TO ADD TO UNLOCKED
