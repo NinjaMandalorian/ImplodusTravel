@@ -142,7 +142,7 @@ public class Station {
 
     @Override
     public String toString() {
-        return "";
+        return "Station{"+this.id.toString()+"}";
     }
 
     // Static methods
