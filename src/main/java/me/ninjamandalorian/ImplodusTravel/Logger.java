@@ -62,7 +62,7 @@ public class Logger {
     private static String formatMsg(String msg) {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String logMsg = "[" + format.format(date) + "] " + msg;
+        String logMsg = "[" + format.format(date) + "] " + msg + "\n";
         return logMsg;
     }
 }
