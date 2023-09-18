@@ -76,7 +76,6 @@ public class DataManager {
 	 * @return HashMap of data or null
 	 */
 	public static HashMap<String,Object> getData(String filePath) {
-        
         File file = getFile(filePath);
         if (!file.exists()) {
             Logger.log("Attempted to retrieve non-existent file: " + filePath);
@@ -124,13 +123,12 @@ public class DataManager {
 	 */
 	private static File getFile(String path) {
         path = dataPath + File.separator + path;
-        
         File file = new File(path);
         if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                Logger.log("Encountered error when creating file - " + path);
+                Logger.log("Encountered error when creating file - " + path + "\n" + e.getMessage());
                 return null;
             }
         }

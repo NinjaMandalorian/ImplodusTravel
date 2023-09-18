@@ -32,9 +32,14 @@ public class StationDataManager {
 
         File[] files = folder.listFiles(filter);
         for (int i = 0; i < files.length; i++) {
-            HashMap<String,Object> map = DataManager.getData("stations" + File.separator + files[i]);
+            try {
+            HashMap<String,Object> map = DataManager.getData("stations" + File.separator + files[i].getName());
             Station station = mapToStation(map);
             returnList.add(station);
+            } catch (Exception e) {
+                Logger.warn("Caught error when producing station " + files[i].getName());
+                Logger.debug("ERROR - " + files[i].getName() + " " + e.getMessage());
+            }
         }
 
         return returnList;
