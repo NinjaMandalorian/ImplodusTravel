@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
+import me.ninjamandalorian.ImplodusTravel.data.StationDataManager;
 import me.ninjamandalorian.ImplodusTravel.event.PreTransportEvent;
 
 /**
@@ -138,6 +139,14 @@ public class Station {
         Bukkit.getServer().getPluginManager().callEvent(preEvent);
         if (preEvent.isCancelled()) return;
         PlayerController.startTeleport(player, this.teleportLocation, 3);
+    }
+
+    public void save() {
+        try {
+            StationDataManager.saveStation(this);
+        } catch (Exception e) {
+            Logger.log("Failed to save " + id.toString() + " - " + e.getMessage());
+        }
     }
 
     @Override

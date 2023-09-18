@@ -16,6 +16,7 @@ import me.ninjamandalorian.ImplodusTravel.Logger;
 
 public class DataManager {
 	
+    private static String dataFolder = "plugins" + File.separator + "ImplodusTravel" + File.separator + "data";
     private static DumperOptions options;
     
 	public DataManager() {
@@ -23,9 +24,8 @@ public class DataManager {
 	}
 
 	private static void initData() {
+        StationDataManager.initStationFiles(dataFolder);
     }
-
-    private static String dataFolder = "plugins" + File.separator + "ImplodusTravel" + File.separator + "data";
 	
 	/**
 	 * Saves data into a .yml format

@@ -6,6 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.ninjamandalorian.ImplodusTravel.command.*;
 import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
+import me.ninjamandalorian.ImplodusTravel.data.DataManager;
+import me.ninjamandalorian.ImplodusTravel.data.StationDataManager;
 import me.ninjamandalorian.ImplodusTravel.listener.BlockListener;
 import me.ninjamandalorian.ImplodusTravel.listener.InventoryListener;
 import me.ninjamandalorian.ImplodusTravel.listener.PlayerListener;
@@ -23,6 +25,7 @@ public class ImplodusTravel extends JavaPlugin {
 
         setupEconomy();
 
+        new DataManager();
         new ImplodusTravelCommand();
         new PlayerController(this);
 
@@ -34,7 +37,7 @@ public class ImplodusTravel extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        StationDataManager.saveAllStations();
     }
 
     private boolean setupEconomy() {
