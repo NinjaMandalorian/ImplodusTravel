@@ -51,6 +51,7 @@ public class PlayerController {
         }
     }
     public static void playerMoved(PlayerMoveEvent e) {
+        // TODO fix to non-looking around
         Player player = e.getPlayer();
         if (playerWaitTimes.containsKey(player)) {
             failTeleport(player);
