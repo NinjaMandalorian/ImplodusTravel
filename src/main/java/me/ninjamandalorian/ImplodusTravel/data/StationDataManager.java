@@ -79,7 +79,7 @@ public class StationDataManager {
         sMap.put("destination", locationToString(station.getTeleportLocation()));
 
 
-        String filePath = "nodes" + File.separator + station.getId().toString() + ".yml";
+        String filePath = "stations" + File.separator + station.getId().toString() + ".yml";
         DataManager.saveData(filePath, sMap);
     }
 
