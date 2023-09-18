@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.ItemGenerator;
+import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
 import me.ninjamandalorian.ImplodusTravel.ui.StationMenu;
 
@@ -41,6 +42,11 @@ public class ImplodusTravelCommand implements CommandExecutor {
                 if (sender instanceof Player plr) {
                     if (!plr.hasPermission("implodustravel.admin")) return true;
                     StationMenu.stationMenu(plr, new Station(UUID.randomUUID(), "TEST_STATION", plr, null, null)).open(plr);
+                }
+                return true;
+            case "log":
+                if (!(sender instanceof Player)) {
+                    Logger.log(String.join(" ", args));
                 }
                 return true;
         }
