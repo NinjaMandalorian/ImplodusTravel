@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -16,7 +19,7 @@ import me.ninjamandalorian.ImplodusTravel.Logger;
 
 public class DataManager {
 	
-    private static String dataFolder = "plugins" + File.separator + "ImplodusTravel" + File.separator + "data";
+    private static String dataPath = "plugins" + File.separator + "ImplodusTravel" + File.separator + "data";
     private static DumperOptions options;
     
 	public DataManager() {
@@ -24,7 +27,21 @@ public class DataManager {
 	}
 
 	private static void initData() {
-        StationDataManager.initStationFiles(dataFolder);
+        File dataFolder = new File(dataPath);
+        if (!dataFolder.exists()) { 
+            dataFolder.mkdirs();
+        }
+
+        List<String> list = Arrays.asList(new String[]{"stations"});
+        // Creates nodes and custom-types folders
+        for (int i = 0; i < list.size(); i++) {
+            File tempFolder = new File(dataFolder, list.get(i));
+            if (!tempFolder.exists()) {
+                tempFolder.mkdirs();
+            }
+        }
+
+        StationDataManager.initStationFiles(dataPath);
     }
 	
 	/**
@@ -106,7 +123,7 @@ public class DataManager {
 	 * @return File or null
 	 */
 	private static File getFile(String path) {
-        path = dataFolder + File.separator + path;
+        path = dataPath + File.separator + path;
         
         File file = new File(path);
         if (!file.exists()) {
