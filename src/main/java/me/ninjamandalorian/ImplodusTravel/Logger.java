@@ -18,6 +18,7 @@ public class Logger {
     }
     
     public static void warn(String string) {
+        Bukkit.getLogger().warning("[ImplodusTravel] " + string);
         quietLog("[WARN] " + string);
     }
     
@@ -27,7 +28,7 @@ public class Logger {
     }
 
     public static void debug(String string) {
-        Bukkit.getLogger().info("[IT-DEBUG] " + string);
+        // Bukkit.getLogger().info("[IT-DEBUG] " + string);
         quietLog("[DEBUG-MODE] " + string);
     }
 
