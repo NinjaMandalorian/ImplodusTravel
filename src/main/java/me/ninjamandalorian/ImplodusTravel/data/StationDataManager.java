@@ -45,6 +45,7 @@ public class StationDataManager {
         return returnList;
     }
 
+    @SuppressWarnings("unchecked")
     private static Station mapToStation(HashMap<String, Object> hashMap) {
 
         // Getting variables for constructor
@@ -56,7 +57,36 @@ public class StationDataManager {
         Location destination = stringToLocation((String) hashMap.get("destination"));
 
         Station station = new Station(uuid, displayName, owner, location, destination);
+
+        if (hashMap.containsKey("destinationStations")) {
+            List<String> destinationList = (List<String>) hashMap.get("destinationStations");
+            for (String string : destinationList) {
+                try {
+                UUID destUuid = UUID.fromString(string);
+                station.addDestination(destUuid);
+                } catch (IllegalArgumentException e) {}
+            }
+        }
         return station;
+    }
+
+    private static HashMap<String, Object> stationToMap(Station station) {
+        HashMap<String,Object> map = new HashMap<String, Object>();
+        map.put("uuid", station.getId().toString());
+        map.put("displayName", station.getDisplayName());
+        map.put("owner", station.getOwner().getUniqueId().toString());
+        map.put("location", locationToString(station.getStationLocation()));
+        map.put("destination", locationToString(station.getTeleportLocation()));
+
+        if (station.getDestinations().size() > 0) {
+            ArrayList<String> destinationList = new ArrayList<>();
+            for (UUID id : station.getDestinations()) {
+                destinationList.add(id.toString());
+            }
+            map.put("destinationStations", destinationList);
+        }
+
+        return map;
     }
 
     private static Location stringToLocation(String string) {
@@ -76,16 +106,10 @@ public class StationDataManager {
     }
 
     public static void saveStation(Station station) throws Exception {
-        HashMap<String,Object> sMap = new HashMap<String, Object>();
-        sMap.put("uuid", station.getId().toString());
-        sMap.put("displayName", station.getDisplayName());
-        sMap.put("owner", station.getOwner().getUniqueId().toString());
-        sMap.put("location", locationToString(station.getStationLocation()));
-        sMap.put("destination", locationToString(station.getTeleportLocation()));
-
+        HashMap<String, Object> stationMap = stationToMap(station);
 
         String filePath = "stations" + File.separator + station.getId().toString() + ".yml";
-        DataManager.saveData(filePath, sMap);
+        DataManager.saveData(filePath, stationMap);
     }
 
     public static void saveAllStations() {
