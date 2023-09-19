@@ -8,6 +8,7 @@ import me.ninjamandalorian.ImplodusTravel.command.*;
 import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
 import me.ninjamandalorian.ImplodusTravel.data.DataManager;
 import me.ninjamandalorian.ImplodusTravel.data.StationDataManager;
+import me.ninjamandalorian.ImplodusTravel.listener.AsyncChatListener;
 import me.ninjamandalorian.ImplodusTravel.listener.BlockListener;
 import me.ninjamandalorian.ImplodusTravel.listener.InventoryListener;
 import me.ninjamandalorian.ImplodusTravel.listener.PlayerListener;
@@ -33,6 +34,7 @@ public class ImplodusTravel extends JavaPlugin {
         pluginManager.registerEvents(new PlayerListener(), instance); 
         pluginManager.registerEvents(new InventoryListener(), instance);
         pluginManager.registerEvents(new BlockListener(), instance);
+        pluginManager.registerEvents(new AsyncChatListener(), instance);
     }
 
     @Override
