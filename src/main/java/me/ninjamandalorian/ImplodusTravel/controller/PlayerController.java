@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
+import me.ninjamandalorian.ImplodusTravel.Logger;
 import net.md_5.bungee.api.ChatColor;
 
 public class PlayerController {
@@ -43,18 +44,17 @@ public class PlayerController {
 
     public static void teleportTick() {
         for (Entry<Player, Long> entry : playerWaitTimes.entrySet()) {
-            Bukkit.broadcastMessage("" + entry.getKey().getName() + " - " + entry.getValue());
-            Bukkit.broadcastMessage("" + playerTeleportLocations.get(entry.getKey()));
             if (System.currentTimeMillis() > entry.getValue()) {
                 endTeleport(entry.getKey());
             }
         }
     }
     public static void playerMoved(PlayerMoveEvent e) {
-        // TODO fix to non-looking around
         Player player = e.getPlayer();
         if (playerWaitTimes.containsKey(player)) {
-            failTeleport(player);
+            if ((e.getFrom().distance(e.getTo())) > 0.05) {
+                failTeleport(player);
+            }
         }
     }
 
