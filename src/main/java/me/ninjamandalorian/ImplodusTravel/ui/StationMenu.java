@@ -11,6 +11,7 @@ import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu;
 import me.ninjamandalorian.ImplodusTravel.ui.object.Buildable;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu.Builder;
 import me.ninjamandalorian.ImplodusTravel.ui.task.BaseTask;
+import me.ninjamandalorian.ImplodusTravel.ui.task.ChatSettingTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.CommandTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.InventoryTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.MessageTask;
@@ -81,7 +82,13 @@ public class StationMenu {
     }
 
     public static Buildable stationConfigMenu(Player player, Station station, boolean returnButton) {
-        return BaseMenu.createBuilder().rows(6).fillOutline().title("Configure Station");
+        Builder builder = BaseMenu.createBuilder().rows(6).fillOutline().title("Configure Station");
+        builder.setButton(
+            10, 
+            BaseButton.create(Material.OAK_SIGN).task(new ChatSettingTask(player, station, "rename")).name("&aRename Station")
+            .lore(colorMsg("&dTyped in chat. &cAlphanumeric.\n&eClick to start."))
+        );
+        return builder;
     }
 
     private static ArrayList<BaseButton> generateStations(Player player, Station station) {

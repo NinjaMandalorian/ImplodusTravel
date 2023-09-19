@@ -19,7 +19,7 @@ import me.ninjamandalorian.ImplodusTravel.event.PreTransportEvent;
  * Station class is the object for transport locations. <p>
  * Contains both basic data & owner options
  */
-public class Station {
+public class Station implements ChatSettable {
     
     // Static Fields
     private static HashMap<UUID, Station> stations = new HashMap<>();
@@ -139,6 +139,14 @@ public class Station {
         Bukkit.getServer().getPluginManager().callEvent(preEvent);
         if (preEvent.isCancelled()) return;
         PlayerController.startTeleport(player, this.teleportLocation, 3);
+    }
+
+    @Override
+    public boolean setSetting(String setting, Object value) {
+        // TODO add parts
+        // renaming; setting rank %s / blacklist
+        Logger.log(this.displayName + " - " + setting + ": " + value);
+        return true;
     }
 
     public void save() {
