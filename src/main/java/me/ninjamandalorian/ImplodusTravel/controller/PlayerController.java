@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
-import me.ninjamandalorian.ImplodusTravel.Logger;
 import net.md_5.bungee.api.ChatColor;
 
 public class PlayerController {
