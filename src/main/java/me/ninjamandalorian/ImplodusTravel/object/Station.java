@@ -149,6 +149,15 @@ public class Station {
         }
     }
 
+    public void delete() {
+        stations.remove(this.id);
+        try {
+            StationDataManager.deleteStation(this);
+        } catch (Exception e) {
+            Logger.log("Failed to delete " + id.toString() + " - " + e.getMessage());
+        }
+    }
+
     @Override
     public String toString() {
         return "Station{"+this.id.toString()+"}";

@@ -122,4 +122,8 @@ public class StationDataManager {
         }
     }
 
+    public static void deleteStation(Station station) throws Exception {
+        DataManager.deleteFile("stations" + File.separator + station.getIdString() + ".yml");
+    }
+
 }

@@ -3,6 +3,7 @@ package me.ninjamandalorian.ImplodusTravel.listener;
 import java.util.UUID;
 
 import org.bukkit.Nameable;
+import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
@@ -11,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+
+import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
 import net.md_5.bungee.api.ChatColor;
@@ -22,20 +25,18 @@ public class BlockListener implements Listener {
         Player player = e.getPlayer();
         Block block = e.getBlock();
         
-        if (player != null && block != null) return;
-        // if (block.getType().toString().contains("SIGN")) {
-        //     Port port = Port.getPort(block.getLocation());
-        //     if (port == null) return;
+        if (block.getState() instanceof Banner banner) {
             
-        //     if (player.hasPermission("implodusports.admin.destroy")) {
-        //         Port.portDestroy(player, port);
-        //         return;
-        //     } else {
-        //         e.setCancelled(true);
-        //         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9[&6iPorts&9] &cYou do not have permission to destroy this."));
-        //         return;
-        //     }
-        // }
+            if (!PersistentDataController.isStationBlock(block)) return;
+            Station station = Station.getStation(block.getLocation());
+            if (station == null || player.hasPermission("implodustravel.admin")) {
+                if (station != null) station.delete();
+                Logger.log("Player " +  player.getUniqueId().toString() + " destroyed station banner " + String.valueOf(station));
+            } else {
+                e.setCancelled(true);
+                player.sendMessage(ChatColor.RED + "You cannot break this station.");
+            }
+        }
     }
 
     @EventHandler
