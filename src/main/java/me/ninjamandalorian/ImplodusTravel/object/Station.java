@@ -141,12 +141,34 @@ public class Station implements ChatSettable {
         PlayerController.startTeleport(player, this.teleportLocation, 3);
     }
 
+    //////////////////////
+    // Settings Editing //
+    //////////////////////
     @Override
     public boolean setSetting(String setting, Object value) {
         // TODO add parts
-        // renaming; setting rank %s / blacklist
+        // setting rank %s / blacklist; default station cost
         Logger.log(this.displayName + " - " + setting + ": " + value);
+        String[] settingDir = setting.split("\\.");
+        switch (settingDir[0]) {
+            case "rename":
+                renameSetting((String) value);
+                break;
+        
+            default:
+                break;
+        }
+        
         return true;
+    }
+
+    public void renameSetting(String newName) {
+        newName = newName.replaceAll("[^a-zA-Z0-9\\s]", "");
+        newName = newName.stripLeading();
+        newName = newName.stripTrailing();
+        Logger.log(this.id.toString() + "changing name from " + this.displayName + " to " + newName);
+        this.displayName = newName;
+        save();
     }
 
     public void save() {
