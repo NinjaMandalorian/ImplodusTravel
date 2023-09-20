@@ -23,6 +23,10 @@ public class PlayerController {
     }
 
     public static void startTeleport(Player player, Location dest, int waitTime) {
+        if (playerWaitTimes.containsKey(player)) {
+            player.sendMessage(ChatColor.RED + "You already have a pending teleport.");
+            return;
+        }
         playerWaitTimes.put(player, System.currentTimeMillis() + (waitTime * 1000L));
         playerTeleportLocations.put(player, dest);
         player.sendMessage(colorMsg("&bYou will be teleported in &a" + waitTime  + "&b seconds."));

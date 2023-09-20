@@ -6,14 +6,17 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
 import me.ninjamandalorian.ImplodusTravel.data.StationDataManager;
 import me.ninjamandalorian.ImplodusTravel.event.PreTransportEvent;
+import net.milkbowl.vault.economy.Economy;
 
 /**
  * Station class is the object for transport locations. <p>
@@ -31,6 +34,9 @@ public class Station implements ChatSettable {
     private Location stationLocation; // Station location
     private Location teleportLocation; // Station's tp location
     private ArrayList<UUID> destinationStations = new ArrayList<>(); // Unlocked destinations
+
+    private double defaultCost = 100; // Cost without any multipliers (editable)
+    private HashMap<String, Double> rankMultMap = new HashMap<>();
 
     /** Constructor method
      * @param id
@@ -133,13 +139,67 @@ public class Station implements ChatSettable {
 
     public void teleportPlayer(Player player, Station source) {
         // TODO debug teleport
-        // add wait time w/ movement cancel
-        // add permissions
+        if (isBlacklisted(player)) return;
+
+        Double cost = getCost(player);
+        Economy econ = ImplodusTravel.getEcon();
+        if (econ.getBalance(player) < cost) {
+            player.sendMessage(ChatColor.RED + "You do not have enough money to travel here.");
+            return;
+        }
+        econ.withdrawPlayer(player, cost);
+        player.sendMessage(ChatColor.GREEN + "You have paid " + econ.format(cost) + " to travel to " + this.displayName);
+
         PreTransportEvent preEvent = new PreTransportEvent(player, source, this);
         Bukkit.getServer().getPluginManager().callEvent(preEvent);
         if (preEvent.isCancelled()) return;
         PlayerController.startTeleport(player, this.teleportLocation, 3);
     }
+
+    // Economy
+
+    public double getDefaultCost() {
+        return defaultCost;
+    }
+
+    public void setDefaultCost(double defaultCost) {
+        this.defaultCost = defaultCost;
+    }
+
+    public double getCost(Player player) {
+        return defaultCost * Math.max(0, getRankMult(player));
+    }
+    
+
+    ////////////////////////////////
+    // Rank Section (%/Blacklist) //
+    ////////////////////////////////
+
+    public String getPlayerRank(Player player) {
+        return "neutral";
+    }
+
+    public boolean isBlacklisted(String rankName) {
+        return getRankMult(rankName) < 0;
+    }
+
+    public boolean isBlacklisted(Player player) {
+        return isBlacklisted(getPlayerRank(player));
+    }
+
+    public Double getRankMult(String rankName) {
+        return rankMultMap.containsKey(rankName) ? rankMultMap.get(rankName) : 1.0;
+    }
+
+    public Double getRankMult(Player player) {
+        return getRankMult(getPlayerRank(player));
+    }
+
+    public void setRankMult(String rankName, double mult) {
+        rankMultMap.put(rankName, mult);
+    }
+
+    
 
     //////////////////////
     // Settings Editing //

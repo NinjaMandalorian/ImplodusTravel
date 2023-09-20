@@ -106,12 +106,18 @@ public class StationMenu {
     private static BaseButton generateStationButton(Player player, Station source, Station dest) {
         BaseButton button = BaseButton.create(Material.PAPER);
         if (source.getDestinations().contains(dest.getId())) { // Is unlocked
-            button.glow();
-            button.task(new RunnableTask(() -> {
-                dest.teleportPlayer(player, source);
-            }));
+            if (dest.isBlacklisted(player)) {
+                button.lore(colorMsg("&cYou are blacklisted from this station."));
+                button.task(new MessageTask(colorMsg("&cYou are blacklisted from this station.")));
+            } else {
+                button.glow();
+                button.task(new RunnableTask(() -> {
+                    dest.teleportPlayer(player, source);
+                }));
+            }
         } else { // Is NOT unlocked
             // TODO - DEBUG TOOL TO ADD TO UNLOCKED
+            // Will remove entire else section after adding maps : not to display locked destinations
             button.task(new RunnableTask(() -> {
                 source.addDestination(dest);
                 Bukkit.broadcastMessage("ADD "+dest.getDisplayName()+" TO "+source.getDisplayName());
