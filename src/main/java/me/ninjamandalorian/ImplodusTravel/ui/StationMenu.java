@@ -88,7 +88,23 @@ public class StationMenu {
             BaseButton.create(Material.OAK_SIGN).task(new ChatSettingTask(player, station, "rename")).name("&aRename Station")
             .lore(colorMsg("&dTyped in chat. &cAlphanumeric.\n&eClick to start."))
         );
+
+        builder.setButton(11, generateRankButton(player, station, "towny_town", Material.HORN_CORAL_FAN) ); // Town
+        builder.setButton(12, generateRankButton(player, station, "towny_nation", Material.TUBE_CORAL_FAN) ); // Nation
+        builder.setButton(13, generateRankButton(player, station, "towny_ally", Material.BRAIN_CORAL_FAN) ); // Ally
+        builder.setButton(14, generateRankButton(player, station, "neutral", Material.DEAD_BRAIN_CORAL) ); // Neutral
+        builder.setButton(15, generateRankButton(player, station, "towny_enemy", Material.FIRE_CORAL_FAN) ); // Enemy
+
         return builder;
+    }
+
+    private static BaseButton generateRankButton(Player player, Station station, String rank, Material material) {
+        // TODO put warning if towny is not installed but allow editing
+        BaseButton button = BaseButton.create(material);
+        button.name(rank);
+        button.lore("Current value:\n" + (Math.round(station.getRankMult(rank)) * 100) + "%");
+        button.task(new ChatSettingTask(player, station, "rank." + rank));
+        return button;
     }
 
     private static ArrayList<BaseButton> generateStations(Player player, Station station) {
