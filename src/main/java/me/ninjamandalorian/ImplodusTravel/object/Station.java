@@ -144,6 +144,11 @@ public class Station implements ChatSettable {
         // TODO debug teleport
         if (isBlacklisted(player)) return;
 
+        if (PlayerController.isPlayerTeleporting(player)) {
+            player.sendMessage(ChatColor.RED + "You already have a pending teleport.");
+            return;
+        }
+
         Double cost = getCost(player);
         Economy econ = ImplodusTravel.getEcon();
         if (econ.getBalance(player) < cost) {
@@ -156,7 +161,7 @@ public class Station implements ChatSettable {
         PreTransportEvent preEvent = new PreTransportEvent(player, source, this);
         Bukkit.getServer().getPluginManager().callEvent(preEvent);
         if (preEvent.isCancelled()) return;
-        PlayerController.startTeleport(player, this.teleportLocation, 3);
+        PlayerController.startTeleport(player, this.teleportLocation, 3); // Change to some different request system whereby cost is saved and refunded
     }
 
     // Economy
@@ -230,7 +235,9 @@ public class Station implements ChatSettable {
             case "rename":
                 renameSetting((String) value);
                 break;
-        
+            case "rank":
+                rankSetting(setting.substring(5), (String) value);
+                break;
             default:
                 break;
         }
@@ -245,6 +252,10 @@ public class Station implements ChatSettable {
         Logger.log(this.id.toString() + "changing name from " + this.displayName + " to " + newName);
         this.displayName = newName;
         save();
+    }
+
+    public void rankSetting(String rank, String value) {
+        
     }
 
     public void save() {

@@ -61,6 +61,10 @@ public class PlayerController {
         }
     }
 
+    public static boolean isPlayerTeleporting(Player player) {
+        return playerWaitTimes.containsKey(player);
+    }
+
     private static String colorMsg(String msg) {
         return ChatColor.translateAlternateColorCodes('&', msg);
     }
