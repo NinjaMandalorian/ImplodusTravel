@@ -11,6 +11,9 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.object.Town;
+
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
@@ -176,6 +179,19 @@ public class Station implements ChatSettable {
     ////////////////////////////////
 
     public String getPlayerRank(Player player) {
+        if (!ImplodusTravel.isTownyInstalled()) {
+            return "neutral";
+        }
+
+        // Towny : towny_town, towny_nation, towny_ally, neutral (default), towny_enemy
+        Town ownerTown = TownyAPI.getInstance().getTown(owner.getUniqueId());
+        Town playerTown = TownyAPI.getInstance().getTown(player);
+        if (ownerTown == null || playerTown == null) return "neutral";
+        if (ownerTown.equals(playerTown)) return "towny_town";
+        if (!ownerTown.hasNation() || !playerTown.hasNation()) return "neutral"; // Must be in a nation to have allies or enemies
+        if (ownerTown.getNationOrNull().hasAlly(playerTown.getNationOrNull())) return "towny_ally";
+        if (ownerTown.getNationOrNull().hasEnemy(playerTown.getNationOrNull())) return "towny_enemy";
+
         return "neutral";
     }
 

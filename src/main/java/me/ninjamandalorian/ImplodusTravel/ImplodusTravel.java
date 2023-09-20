@@ -1,5 +1,6 @@
 package me.ninjamandalorian.ImplodusTravel;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +20,7 @@ public class ImplodusTravel extends JavaPlugin {
     private static ImplodusTravel instance;
     public static Economy econ;
 
+    private static boolean townyInstalled;
 
     @Override
     public void onEnable() {
@@ -35,6 +37,8 @@ public class ImplodusTravel extends JavaPlugin {
         pluginManager.registerEvents(new InventoryListener(), instance);
         pluginManager.registerEvents(new BlockListener(), instance);
         pluginManager.registerEvents(new AsyncChatListener(), instance);
+
+        townyInstalled = (Bukkit.getPluginManager().getPlugin("Towny") != null);
     }
 
     @Override
@@ -60,6 +64,10 @@ public class ImplodusTravel extends JavaPlugin {
 
     public static Economy getEcon() {
         return econ;
+    }
+
+    public static boolean isTownyInstalled() {
+        return townyInstalled;
     }
 
 }

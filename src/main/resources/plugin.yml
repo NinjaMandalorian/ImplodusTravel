@@ -5,6 +5,7 @@ api-version: 1.19
 description: Interactive exploration plugin for travelling across the world.
 author: NinjaMandalorian
 depend: [Vault]
+softdepend: [Towny]
 
 commands:
   implodustravel:
