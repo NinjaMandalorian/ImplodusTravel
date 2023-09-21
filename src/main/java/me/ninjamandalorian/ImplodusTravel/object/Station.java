@@ -249,7 +249,7 @@ public class Station implements ChatSettable {
         return true;
     }
 
-    public void renameSetting(String newName) {
+    private void renameSetting(String newName) {
         newName = newName.replaceAll("[^a-zA-Z0-9\\s]", "");
         newName = newName.stripLeading();
         newName = newName.stripTrailing();
@@ -258,7 +258,7 @@ public class Station implements ChatSettable {
         save();
     }
 
-    public void rankSetting(String rank, String value) {
+    private void rankSetting(String rank, String value) {
         if (value.toLowerCase().strip().startsWith("blacklist")) {
             rankMultMap.put(rank, -1.0);
         } else {
@@ -277,6 +277,7 @@ public class Station implements ChatSettable {
                 Logger.log(key + " " + rankMultMap.get(key));
             }
         }
+        save();
     }
 
     public void save() {
