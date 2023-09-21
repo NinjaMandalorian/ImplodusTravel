@@ -102,7 +102,10 @@ public class StationMenu {
         // TODO put warning if towny is not installed but allow editing
         BaseButton button = BaseButton.create(material);
         button.name(rank);
-        button.lore("Current value:\n" + (Math.round(station.getRankMult(rank)) * 100) + "%");
+
+        Long rankMult = Math.round( station.getRankMult(rank)*100.0 );
+        
+        button.lore("Current value:\n" + (rankMult < 0 ? "Blacklisted": rankMult + "%"));
         button.task(new ChatSettingTask(player, station, "rank." + rank));
         return button;
     }

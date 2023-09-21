@@ -164,7 +164,9 @@ public class Station implements ChatSettable {
         PlayerController.startTeleport(player, this.teleportLocation, 3); // Change to some different request system whereby cost is saved and refunded
     }
 
-    // Economy
+    /////////////
+    // Economy //
+    /////////////
 
     public double getDefaultCost() {
         return defaultCost;
@@ -228,7 +230,7 @@ public class Station implements ChatSettable {
     @Override
     public boolean setSetting(String setting, Object value) {
         // TODO add parts
-        // setting rank %s / blacklist; default station cost
+        // default station cost
         Logger.log(this.displayName + " - " + setting + ": " + value);
         String[] settingDir = setting.split("\\.");
         switch (settingDir[0]) {
@@ -255,7 +257,24 @@ public class Station implements ChatSettable {
     }
 
     public void rankSetting(String rank, String value) {
-        
+        if (value.toLowerCase().strip().startsWith("blacklist")) {
+            rankMultMap.put(rank, -1.0);
+        } else {
+            value = value.replaceAll("[^0-9.-]", "");
+            Double doubleValue = null;
+            try { doubleValue = Double.parseDouble(value); } catch (Exception e) {};
+            if (doubleValue == null) return;
+            if (doubleValue < 0) {
+                rankMultMap.put(rank, -1.0);
+            } else if (doubleValue < 1) {
+                rankMultMap.put(rank, doubleValue);
+            } else {
+                rankMultMap.put(rank, doubleValue / 100);
+            }
+            for (String key : rankMultMap.keySet()) {
+                Logger.log(key + " " + rankMultMap.get(key));
+            }
+        }
     }
 
     public void save() {
