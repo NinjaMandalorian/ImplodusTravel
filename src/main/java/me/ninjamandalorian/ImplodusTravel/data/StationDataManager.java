@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -67,6 +68,14 @@ public class StationDataManager {
                 } catch (IllegalArgumentException e) {}
             }
         }
+
+        if (hashMap.containsKey("rankMultipliers")) {
+            HashMap<String, Double> multplierMap = (HashMap<String, Double>) hashMap.get("rankMultipliers");
+            for (Entry<String, Double> entry : multplierMap.entrySet()) {
+                station.setRankMult(entry.getKey(), entry.getValue());
+            }
+        }
+
         return station;
     }
 
@@ -84,6 +93,10 @@ public class StationDataManager {
                 destinationList.add(id.toString());
             }
             map.put("destinationStations", destinationList);
+        }
+
+        if (station.getRankMultMap().size() > 0) {
+            map.put("rankMultipliers", station.getRankMultMap());
         }
 
         return map;

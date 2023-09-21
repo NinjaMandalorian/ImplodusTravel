@@ -222,7 +222,9 @@ public class Station implements ChatSettable {
         rankMultMap.put(rankName, mult);
     }
 
-    
+    public HashMap<String, Double> getRankMultMap() {
+        return rankMultMap;
+    }
 
     //////////////////////
     // Settings Editing //
