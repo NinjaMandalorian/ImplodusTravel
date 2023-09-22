@@ -233,7 +233,6 @@ public class Station implements ChatSettable {
     public boolean setSetting(String setting, Object value) {
         // TODO add parts
         // default station cost
-        Logger.log(this.displayName + " - " + setting + ": " + value);
         String[] settingDir = setting.split("\\.");
         switch (settingDir[0]) {
             case "rename":
