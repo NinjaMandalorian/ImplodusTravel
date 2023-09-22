@@ -234,7 +234,7 @@ public class Station implements ChatSettable {
     @Override
     public boolean setSetting(String setting, Object value) {
         // TODO add parts
-        // default station cost
+        // default station cost; throw SettingsError
         String[] settingDir = setting.split("\\.");
         switch (settingDir[0]) {
             case "rename":
