@@ -5,12 +5,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseButton;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu;
 import me.ninjamandalorian.ImplodusTravel.ui.object.Buildable;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu.Builder;
-import me.ninjamandalorian.ImplodusTravel.ui.task.BaseTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.ChatSettingTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.CommandTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.InventoryTask;
@@ -46,19 +46,19 @@ public class StationMenu {
                 .name("&aOpen station list")
                 .task(new InventoryTask(stationListMenu(player, station, true)))
         );
-        BaseTask task;
+        BaseButton editButton = BaseButton.create(Material.WRITABLE_BOOK).name("&eEdit station")
+        .lore(colorMsg("&cOwner only"));
+
         if (station.getOwner().equals(player)) {
-            task = new InventoryTask(stationConfigMenu(player, station, true));
+            editButton.task(new InventoryTask(stationConfigMenu(player, station, true)));
+            editButton.glow();
         } else {
-            task = new MessageTask("&cYou do not have permission to use this!");
+            editButton.task(new MessageTask(colorMsg("&cYou do not have permission to use this!")));
         }
 
         builder.setButton(
             15,
-            BaseButton.create(Material.WRITABLE_BOOK)
-                .name("&eEdit station")
-                .lore(colorMsg("&cOwner only"))
-                .task(task)
+            editButton
         );
 
         return builder.build();
