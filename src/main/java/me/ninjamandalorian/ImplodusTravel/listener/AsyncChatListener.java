@@ -28,11 +28,13 @@ public class AsyncChatListener implements Listener {
             }
 
             request.getSettable().setSetting(request.getSetting(), e.getMessage());
-            for (Player p : e.getRecipients()) {
-                if (!p.equals(player)) {
-                    e.getRecipients().remove(p);
-                }
-            }
+            try {
+                for (Player p : e.getRecipients()) {
+                    if (!p.equals(player)) {
+                        e.getRecipients().remove(p);
+                    }
+                }   
+            } catch (Exception ex) {}
             // e.setCancelled(true);
         }
     }

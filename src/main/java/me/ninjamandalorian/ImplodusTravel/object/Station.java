@@ -190,15 +190,17 @@ public class Station implements ChatSettable {
             return "neutral";
         }
 
+        if (TownyAPI.getInstance().getResident(owner.getUniqueId()) == null) return "neutral";
+
         // Towny : towny_town, towny_nation, towny_ally, neutral (default), towny_enemy
-        Town ownerTown = TownyAPI.getInstance().getTown(owner.getUniqueId());
+        Town ownerTown = TownyAPI.getInstance().getResident(owner.getUniqueId()).getTownOrNull();
         Town playerTown = TownyAPI.getInstance().getTown(player);
         if (ownerTown == null || playerTown == null) return "neutral";
         if (ownerTown.equals(playerTown)) return "towny_town";
         if (!ownerTown.hasNation() || !playerTown.hasNation()) return "neutral"; // Must be in a nation to have allies or enemies
+        if (ownerTown.getNationOrNull().equals(playerTown.getNationOrNull())) return "towny_nation";
         if (ownerTown.getNationOrNull().hasAlly(playerTown.getNationOrNull())) return "towny_ally";
         if (ownerTown.getNationOrNull().hasEnemy(playerTown.getNationOrNull())) return "towny_enemy";
-
         return "neutral";
     }
 
