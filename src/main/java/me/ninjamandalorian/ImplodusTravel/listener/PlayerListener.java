@@ -16,6 +16,7 @@ import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
 import me.ninjamandalorian.ImplodusTravel.ui.StationMenu;
+import net.md_5.bungee.api.ChatColor;
 
 public class PlayerListener implements Listener {
     
@@ -41,7 +42,11 @@ public class PlayerListener implements Listener {
                     Bukkit.getLogger().info("[IMPLODUSTRAVEL] ERROR: BANNER AT " + block.getLocation() + " HAS MARK BUT NO OBJECT");
                     return;
                 }
-                StationMenu.stationMenu(player, station).open(player);
+                if (station.isBlacklisted(player)) {
+                    player.sendMessage(ChatColor.RED+"You are blacklisted from this station.");
+                } else {
+                    StationMenu.stationMenu(player, station).open(player);
+                }
             }
         }
         
