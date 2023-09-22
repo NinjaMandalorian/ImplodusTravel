@@ -243,6 +243,9 @@ public class Station implements ChatSettable {
             case "rank":
                 rankSetting(setting.substring(5), (String) value);
                 break;
+            case "defaultCost":
+                defaultCostSetting((String) value);
+                break;
             default:
                 break;
         }
@@ -279,6 +282,14 @@ public class Station implements ChatSettable {
             }
         }
         save();
+    }
+
+    private void defaultCostSetting(String value) {
+        value = value.replaceAll("[^0-9.-]", "");
+        Double doubleValue = null;
+        try { doubleValue = Double.parseDouble(value); } catch (Exception e) {};
+        if (doubleValue == null) return;
+        this.defaultCost = doubleValue;
     }
 
     public void save() {

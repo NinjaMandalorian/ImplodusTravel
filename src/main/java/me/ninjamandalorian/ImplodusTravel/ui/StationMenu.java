@@ -94,6 +94,12 @@ public class StationMenu {
         builder.setButton(13, generateRankButton(player, station, "towny_ally", Material.BRAIN_CORAL_FAN) ); // Ally
         builder.setButton(14, generateRankButton(player, station, "neutral", Material.DEAD_BRAIN_CORAL) ); // Neutral
         builder.setButton(15, generateRankButton(player, station, "towny_enemy", Material.FIRE_CORAL_FAN) ); // Enemy
+        
+        builder.setButton(
+            16, 
+            BaseButton.create(Material.EMERALD).task(new ChatSettingTask(player, station, "defaultCost")).name("&aChange cost")
+            .lore(colorMsg("&aCurrent cost: &6" + ImplodusTravel.getEcon().format(station.getDefaultCost())))
+        );
 
         return builder;
     }
