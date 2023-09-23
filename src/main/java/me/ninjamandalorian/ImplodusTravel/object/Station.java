@@ -331,7 +331,9 @@ public class Station implements ChatSettable {
         ArrayList<Station> returnList = new ArrayList<>();
 
         for (Station station : stations.values()) {
+            try{
             if (station.getOwner().equals(player)) returnList.add(station);
+            } catch (Exception e) {Logger.log("Station " + station.getIdString() + " error: " + e.getMessage());};
         }
 
         return returnList;
@@ -349,9 +351,11 @@ public class Station implements ChatSettable {
         ArrayList<Station> returnList = new ArrayList<>();
 
         for (Station station : stations.values()) {
-            if (station.getTeleportLocation().getWorld().equals(loc.getWorld())) {
-                if (station.getTeleportLocation().distance(loc) <= range) returnList.add(station);
-            }
+            try {
+                if (station.getTeleportLocation().getWorld().equals(loc.getWorld())) {
+                    if (station.getTeleportLocation().distance(loc) <= range) returnList.add(station);
+                }
+            } catch (Exception e) {Logger.log("Station " + station.getIdString() + " error: " + e.getMessage());};
         }
 
         return returnList;
