@@ -123,7 +123,8 @@ public class StationMenu {
     }
 
     private static BaseButton generateStationButton(Player player, Station source, Station dest) {
-        BaseButton button = BaseButton.create(Material.PAPER);
+        Material blockMaterial = dest.getStationLocation().getBlock().getType();
+        BaseButton button = BaseButton.create(blockMaterial);
         if (source.getDestinations().contains(dest.getId())) { // Is unlocked
             if (dest.isBlacklisted(player)) {
                 button.lore(colorMsg("&cYou are blacklisted from this station."));
