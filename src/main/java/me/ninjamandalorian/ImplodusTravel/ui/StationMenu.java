@@ -1,9 +1,16 @@
 package me.ninjamandalorian.ImplodusTravel.ui;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Banner;
+import org.bukkit.block.Block;
+import org.bukkit.block.banner.Pattern;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
@@ -129,8 +136,17 @@ public class StationMenu {
     }
 
     private static BaseButton generateStationButton(Player player, Station source, Station dest) {
-        Material blockMaterial = dest.getStationLocation().getBlock().getType();
-        BaseButton button = BaseButton.create(blockMaterial);
+        
+        // Creates itemstack from block (same pattern & color)
+        Block bannerBlock = dest.getStationLocation().getBlock();
+        Banner banner = (Banner) bannerBlock.getState();
+        List<Pattern> patterns = banner.getPatterns();
+        ItemStack buttonStack = new ItemStack(bannerBlock.getType());
+        BannerMeta meta = (BannerMeta) buttonStack.getItemMeta();
+        meta.setPatterns(patterns);
+        buttonStack.setItemMeta(meta);
+
+        BaseButton button = BaseButton.create().itemStack(buttonStack);
         if (source.getDestinations().contains(dest.getId())) { // Is unlocked
             if (dest.isBlacklisted(player)) {
                 button.lore(colorMsg("&cYou are blacklisted from this station."));
