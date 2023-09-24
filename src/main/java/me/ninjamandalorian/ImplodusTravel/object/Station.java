@@ -234,7 +234,7 @@ public class Station implements ChatSettable {
     @Override
     public boolean setSetting(String setting, Object value) {
         // TODO add parts
-        // default station cost
+        // default station cost; throw SettingsError
         String[] settingDir = setting.split("\\.");
         switch (settingDir[0]) {
             case "rename":
@@ -242,6 +242,9 @@ public class Station implements ChatSettable {
                 break;
             case "rank":
                 rankSetting(setting.substring(5), (String) value);
+                break;
+            case "defaultCost":
+                defaultCostSetting((String) value);
                 break;
             default:
                 break;
@@ -279,6 +282,14 @@ public class Station implements ChatSettable {
             }
         }
         save();
+    }
+
+    private void defaultCostSetting(String value) {
+        value = value.replaceAll("[^0-9.-]", "");
+        Double doubleValue = null;
+        try { doubleValue = Double.parseDouble(value); } catch (Exception e) {};
+        if (doubleValue == null) return;
+        this.defaultCost = doubleValue;
     }
 
     public void save() {
@@ -320,7 +331,9 @@ public class Station implements ChatSettable {
         ArrayList<Station> returnList = new ArrayList<>();
 
         for (Station station : stations.values()) {
+            try{
             if (station.getOwner().equals(player)) returnList.add(station);
+            } catch (Exception e) {Logger.log("Station " + station.getIdString() + " error: " + e.getMessage());};
         }
 
         return returnList;
@@ -338,9 +351,11 @@ public class Station implements ChatSettable {
         ArrayList<Station> returnList = new ArrayList<>();
 
         for (Station station : stations.values()) {
-            if (station.getTeleportLocation().getWorld().equals(loc.getWorld())) {
-                if (station.getTeleportLocation().distance(loc) <= range) returnList.add(station);
-            }
+            try {
+                if (station.getTeleportLocation().getWorld().equals(loc.getWorld())) {
+                    if (station.getTeleportLocation().distance(loc) <= range) returnList.add(station);
+                }
+            } catch (Exception e) {Logger.log("Station " + station.getIdString() + " error: " + e.getMessage());};
         }
 
         return returnList;
