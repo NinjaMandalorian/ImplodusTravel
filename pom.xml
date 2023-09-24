@@ -44,7 +44,7 @@
 	                    <configuration>
 	                    	<artifactSet>
                                 <includes>
-                                   <include>net.kyori</include>
+                                    <include>net.kyori</include>
                                 </includes>
                             </artifactSet>
                             <!-- Move classes so there's no conflicts -->
