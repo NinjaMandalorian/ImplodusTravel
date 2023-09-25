@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
 import net.md_5.bungee.api.ChatColor;
 
@@ -19,11 +20,9 @@ public class ItemGenerator {
         ItemMeta meta = stationItemStack.getItemMeta();
         meta.setDisplayName(colorMsg("&e&lStation Item"));
         meta.setLore(Arrays.asList(colorMsg("&aPlace this to create a new station.")));
-
-        PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
-        dataContainer.set(new NamespacedKey(ImplodusTravel.getInstance(), "customCheck"), PersistentDataType.INTEGER, 1);
-
         stationItemStack.setItemMeta(meta);
+
+        PersistentDataController.giveItemTag(stationItemStack);
         return stationItemStack;
     }
 

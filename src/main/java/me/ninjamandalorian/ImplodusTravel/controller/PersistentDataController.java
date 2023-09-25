@@ -5,6 +5,8 @@ import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -32,6 +34,13 @@ public class PersistentDataController {
             holder.getPersistentDataContainer().set(customKey, PersistentDataType.INTEGER, 1);
         }
         state.update();
+    }
+
+    public static void giveItemTag(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        pdc.set(customKey, PersistentDataType.INTEGER, 2);
+        item.setItemMeta(meta);
     }
 
 }
