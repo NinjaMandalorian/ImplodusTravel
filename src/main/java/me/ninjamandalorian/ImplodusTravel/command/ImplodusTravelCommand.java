@@ -74,7 +74,7 @@ public class ImplodusTravelCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + "You need " + econ.format(STATION_COST) + " to do this.");
                 return;
             }
-            econ.withdrawPlayer(player, balance);
+            econ.withdrawPlayer(player, STATION_COST);
             PersistentDataController.giveItemTag(item);
             ItemMeta meta = item.getItemMeta();
             meta.setLore(Arrays.asList(ChatColor.GREEN + "Place this to create a new station."));
