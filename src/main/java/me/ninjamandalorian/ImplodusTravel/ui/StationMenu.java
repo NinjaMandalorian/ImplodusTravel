@@ -137,7 +137,7 @@ public class StationMenu {
 
     private static BaseButton generateStationButton(Player player, Station source, Station dest) {
         
-        // Creates itemstack from block (same pattern & color)
+        // Creates ItemStack from block (same pattern & color)
         Block bannerBlock = dest.getStationLocation().getBlock();
         Banner banner = (Banner) bannerBlock.getState();
         List<Pattern> patterns = banner.getPatterns();

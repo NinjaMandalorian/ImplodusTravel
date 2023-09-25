@@ -51,7 +51,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>net.kyori</pattern>
-                                    <shadedPattern>me.NinjaMandalorian.ImplodusPorts.kyori</shadedPattern>
+                                    <shadedPattern>me.NinjaMandalorian.ImplodusTravel.kyori</shadedPattern>
                                 </relocation>
                             </relocations>
                             <!-- Tells it to try to leave out unused classes -->
