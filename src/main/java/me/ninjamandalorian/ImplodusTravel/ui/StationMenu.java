@@ -9,6 +9,7 @@ import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 
@@ -144,6 +145,7 @@ public class StationMenu {
         ItemStack buttonStack = new ItemStack(bannerBlock.getType());
         BannerMeta meta = (BannerMeta) buttonStack.getItemMeta();
         meta.setPatterns(patterns);
+        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         buttonStack.setItemMeta(meta);
 
         BaseButton button = BaseButton.create().itemStack(buttonStack);
