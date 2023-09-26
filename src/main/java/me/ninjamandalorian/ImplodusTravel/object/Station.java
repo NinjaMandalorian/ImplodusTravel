@@ -19,6 +19,7 @@ import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
 import me.ninjamandalorian.ImplodusTravel.data.StationDataManager;
 import me.ninjamandalorian.ImplodusTravel.event.PreTransportEvent;
+import me.ninjamandalorian.ImplodusTravel.exceptions.ChatSettingException;
 import net.milkbowl.vault.economy.Economy;
 
 /**
@@ -232,7 +233,7 @@ public class Station implements ChatSettable {
     // Settings Editing //
     //////////////////////
     @Override
-    public boolean setSetting(String setting, Object value) {
+    public boolean setSetting(String setting, Object value) throws ChatSettingException {
         // TODO add parts
         // default station cost; throw SettingsError
         String[] settingDir = setting.split("\\.");
@@ -262,14 +263,15 @@ public class Station implements ChatSettable {
         save();
     }
 
-    private void rankSetting(String rank, String value) {
+    private void rankSetting(String rank, String value) throws ChatSettingException {
         if (value.toLowerCase().strip().startsWith("blacklist")) {
             rankMultMap.put(rank, -1.0);
         } else {
             value = value.replaceAll("[^0-9.-]", "");
             Double doubleValue = null;
-            try { doubleValue = Double.parseDouble(value); } catch (Exception e) {};
-            if (doubleValue == null) return;
+            try { doubleValue = Double.parseDouble(value); } catch (Exception e) {
+            };
+            if (doubleValue == null) throw new ChatSettingException("Invalid value.");
             if (doubleValue < 0) {
                 rankMultMap.put(rank, -1.0);
             } else if (doubleValue < 1) {
@@ -284,11 +286,11 @@ public class Station implements ChatSettable {
         save();
     }
 
-    private void defaultCostSetting(String value) {
+    private void defaultCostSetting(String value) throws ChatSettingException {
         value = value.replaceAll("[^0-9.-]", "");
         Double doubleValue = null;
         try { doubleValue = Double.parseDouble(value); } catch (Exception e) {};
-        if (doubleValue == null) return;
+        if (doubleValue == null) throw new ChatSettingException("Invalid value.");
         this.defaultCost = doubleValue;
     }
 
