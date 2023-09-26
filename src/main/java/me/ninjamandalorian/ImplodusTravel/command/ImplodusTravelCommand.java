@@ -1,11 +1,15 @@
 package me.ninjamandalorian.ImplodusTravel.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,11 +18,10 @@ import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.ItemGenerator;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
-import me.ninjamandalorian.ImplodusTravel.ui.StationMenu;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
-public class ImplodusTravelCommand implements CommandExecutor {
+public class ImplodusTravelCommand implements CommandExecutor, TabCompleter {
 
     private static double STATION_COST = 300.00;
 
@@ -39,24 +42,11 @@ public class ImplodusTravelCommand implements CommandExecutor {
                     sender.sendMessage("Not possible for console.");
                 }
                 return true;
-            case "adminstation":
-                if (sender instanceof Player plr) {
-                    if (!plr.hasPermission("implodustravel.admin")) return true;
-                    plr.getInventory().addItem(ItemGenerator.getStationItem());
-                    plr.updateInventory();
-                }
-                return true;
             case "admintoken":
                 if (sender instanceof Player plr) {
                     if (!plr.hasPermission("implodustravel.admin")) return true;
                     plr.getInventory().addItem(ItemGenerator.getDiscoveryTokenItem(new Station(UUID.randomUUID(), "TEST_STATION", plr, null, null)));
                     plr.updateInventory();
-                }
-                return true;
-            case "opentest":
-                if (sender instanceof Player plr) {
-                    if (!plr.hasPermission("implodustravel.admin")) return true;
-                    StationMenu.stationMenu(plr, new Station(UUID.randomUUID(), "TEST_STATION", plr, null, null)).open(plr);
                 }
                 return true;
         }
@@ -83,5 +73,23 @@ public class ImplodusTravelCommand implements CommandExecutor {
         } else {
             player.sendMessage(ChatColor.RED + "You must use a banner.");
         }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length == 1) {
+            return startOnly(Arrays.asList("buystation"), args[0]);
+        }
+        return Collections.emptyList();
+    }
+
+    private static List<String> startOnly(List<String> options, String input) {
+        ArrayList<String> returnList = new ArrayList<>();
+        input = input.toLowerCase();
+        for (String string : options) {
+            if (string.toLowerCase().startsWith(input)) returnList.add(string);
+        }
+
+        return returnList;
     }
 }
