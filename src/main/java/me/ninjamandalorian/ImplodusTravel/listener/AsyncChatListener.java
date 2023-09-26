@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import me.ninjamandalorian.ImplodusTravel.exceptions.ChatSettingException;
 import me.ninjamandalorian.ImplodusTravel.object.SettingRequest;
 import net.md_5.bungee.api.ChatColor;
 
@@ -27,7 +28,11 @@ public class AsyncChatListener implements Listener {
                 return;
             }
 
-            request.getSettable().setSetting(request.getSetting(), e.getMessage());
+            try {
+                request.getSettable().setSetting(request.getSetting(), e.getMessage());
+            } catch (ChatSettingException ex) {
+                player.sendMessage(ChatColor.RED + "Error: " + ex.getMessage());
+            }
             try {
                 for (Player p : e.getRecipients()) {
                     if (!p.equals(player)) {
