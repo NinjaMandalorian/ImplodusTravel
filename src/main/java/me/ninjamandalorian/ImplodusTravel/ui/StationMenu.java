@@ -3,7 +3,6 @@ package me.ninjamandalorian.ImplodusTravel.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
@@ -20,7 +19,6 @@ import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu;
 import me.ninjamandalorian.ImplodusTravel.ui.object.Buildable;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu.Builder;
 import me.ninjamandalorian.ImplodusTravel.ui.task.ChatSettingTask;
-import me.ninjamandalorian.ImplodusTravel.ui.task.CommandTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.InventoryTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.MessageTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.RunnableTask;
@@ -41,12 +39,14 @@ public class StationMenu {
         Builder builder = BaseMenu.createBuilder().rows(3);
         builder.fillOutline();
         builder.title("Station - " + station.getDisplayName());
+        RunnableTask tokenTask = new RunnableTask(() -> {station.addDestination(player);});
+        tokenTask = tokenTask.closeMenu();
         builder.setButton(
             11, 
             BaseButton.create(Material.COMPASS)
                 .name("&bAdd new station")
                 .lore(colorMsg("&cWarning: Consumes all tokens."))
-                .task(new CommandTask("/implodustravel addtokens " + station.getIdString()).autoClose())
+                .task(tokenTask)
         );
         builder.setButton(
             13,
@@ -130,6 +130,7 @@ public class StationMenu {
         ArrayList<Station> nearbyStations = Station.getStationsInRange(station, 5000.0);
         for (Station stationEntry : nearbyStations) {
             if (stationEntry.equals(station)) continue;
+            if (!station.getDestinations().contains(stationEntry.getId())) continue;
             BaseButton button = generateStationButton(player, station, stationEntry);
             if (button != null) stationButtons.add(button);
         }
@@ -149,23 +150,14 @@ public class StationMenu {
         buttonStack.setItemMeta(meta);
 
         BaseButton button = BaseButton.create().itemStack(buttonStack);
-        if (source.getDestinations().contains(dest.getId())) { // Is unlocked
-            if (dest.isBlacklisted(player)) {
-                button.lore(colorMsg("&cYou are blacklisted from this station."));
-                button.task(new MessageTask(colorMsg("&cYou are blacklisted from this station.")));
-            } else {
-                button.glow();
-                button.task(new RunnableTask(() -> {
-                    dest.teleportPlayer(player, source);
-                }));
-            }
-        } else { // Is NOT unlocked
-            // TODO - DEBUG TOOL TO ADD TO UNLOCKED
-            // Will remove entire else section after adding maps : not to display locked destinations
+        if (dest.isBlacklisted(player)) {
+            button.lore(colorMsg("&cYou are blacklisted from this station."));
+            button.task(new MessageTask(colorMsg("&cYou are blacklisted from this station.")));
+        } else {
+            button.glow();
             button.task(new RunnableTask(() -> {
-                source.addDestination(dest);
-                Bukkit.broadcastMessage("ADD "+dest.getDisplayName()+" TO "+source.getDisplayName());
-            }));        
+                dest.teleportPlayer(player, source);
+            }));
         }
         button.name("&b" + dest.getDisplayName());
         
