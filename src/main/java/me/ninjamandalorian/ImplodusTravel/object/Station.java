@@ -10,12 +10,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Town;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.Logger;
+import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
 import me.ninjamandalorian.ImplodusTravel.data.StationDataManager;
 import me.ninjamandalorian.ImplodusTravel.event.PreTransportEvent;
@@ -113,6 +115,24 @@ public class Station implements ChatSettable {
 
     public ArrayList<UUID> getDestinations() {
         return destinationStations;
+    }
+
+    /** Adds destinations depending on maps in player inventory.
+     * @param player - Player trying to add maps
+     */
+    public void addDestination(Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        UUID itemUUID = PersistentDataController.getTokenUUID(item);
+        if (itemUUID != null) {
+            destinationStations.add(itemUUID);
+            Logger.quietLog(player.getName() + " added " + itemUUID.toString() + " to " + id.toString());
+            player.getInventory().remove(item);
+            Station addedStation = Station.getStation(itemUUID);
+            if (addedStation == null) player.sendMessage(ChatColor.GREEN + "Station added.");
+            else player.sendMessage(ChatColor.GREEN + "You added " + addedStation.getDisplayName() + " to the station.");
+        } else {
+            player.sendMessage(ChatColor.RED + "Please hold a valid map.");
+        }
     }
 
     public void addDestination(UUID uuid) {
