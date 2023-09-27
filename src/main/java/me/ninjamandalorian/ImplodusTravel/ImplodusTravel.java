@@ -13,6 +13,7 @@ import me.ninjamandalorian.ImplodusTravel.listener.AsyncChatListener;
 import me.ninjamandalorian.ImplodusTravel.listener.BlockListener;
 import me.ninjamandalorian.ImplodusTravel.listener.InventoryListener;
 import me.ninjamandalorian.ImplodusTravel.listener.PlayerListener;
+import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import net.milkbowl.vault.economy.Economy;
 
 public class ImplodusTravel extends JavaPlugin {
@@ -28,6 +29,7 @@ public class ImplodusTravel extends JavaPlugin {
 
         setupEconomy();
 
+        Settings.init();
         new DataManager();
         new ImplodusTravelCommand();
         new PlayerController(this);

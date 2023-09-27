@@ -18,12 +18,11 @@ import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.ItemGenerator;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
+import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
 public class ImplodusTravelCommand implements CommandExecutor, TabCompleter {
-
-    private static double STATION_COST = 300.00;
 
     public ImplodusTravelCommand() {
         ImplodusTravel plugin = ImplodusTravel.getInstance();
@@ -60,6 +59,7 @@ public class ImplodusTravelCommand implements CommandExecutor, TabCompleter {
         if (item.getType().name().endsWith("BANNER")) {
             Economy econ = ImplodusTravel.getEcon();
             double balance = econ.getBalance(player);
+            final double STATION_COST = Settings.getDefaultStationCost();
             if (balance < STATION_COST) {
                 player.sendMessage(ChatColor.RED + "You need " + econ.format(STATION_COST) + " to do this.");
                 return;

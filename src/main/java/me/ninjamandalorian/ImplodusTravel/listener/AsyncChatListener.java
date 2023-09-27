@@ -9,13 +9,12 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import me.ninjamandalorian.ImplodusTravel.exceptions.ChatSettingException;
 import me.ninjamandalorian.ImplodusTravel.object.SettingRequest;
+import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import net.md_5.bungee.api.ChatColor;
 
 public class AsyncChatListener implements Listener {
     
     private static HashMap<Player, SettingRequest> settingRequests = new HashMap<>();
-
-    private final static int SETTING_TIMEOUT = 30;
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e) {
@@ -23,7 +22,7 @@ public class AsyncChatListener implements Listener {
             Player player = e.getPlayer();
             SettingRequest request = settingRequests.get(player);
             settingRequests.remove(e.getPlayer());
-            if (request.getRequestTime() + (1000L * SETTING_TIMEOUT) < System.currentTimeMillis()) {
+            if (request.getRequestTime() + (1000L * Settings.getSettingTimeout()) < System.currentTimeMillis()) {
                 player.sendMessage(ChatColor.RED + "Setting request expired. Please try again.");
                 return;
             }

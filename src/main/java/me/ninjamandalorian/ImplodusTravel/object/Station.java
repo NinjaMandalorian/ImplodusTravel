@@ -22,6 +22,7 @@ import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
 import me.ninjamandalorian.ImplodusTravel.data.StationDataManager;
 import me.ninjamandalorian.ImplodusTravel.event.PreTransportEvent;
 import me.ninjamandalorian.ImplodusTravel.exceptions.ChatSettingException;
+import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import net.milkbowl.vault.economy.Economy;
 
 /**
@@ -41,7 +42,7 @@ public class Station implements ChatSettable {
     private Location teleportLocation; // Station's tp location
     private ArrayList<UUID> destinationStations = new ArrayList<>(); // Unlocked destinations
 
-    private double defaultCost = 100; // Cost without any multipliers (editable)
+    private double defaultCost; // Cost without any multipliers (editable)
     private HashMap<String, Double> rankMultMap = new HashMap<>();
 
     /** Constructor method
@@ -61,6 +62,8 @@ public class Station implements ChatSettable {
         while (stations.containsKey(this.id)) {
             this.id = UUID.randomUUID();
         }
+
+        this.defaultCost = Settings.getDefaultTravelCost();
         
         stations.put(this.id, this); // Add to station registry
     }

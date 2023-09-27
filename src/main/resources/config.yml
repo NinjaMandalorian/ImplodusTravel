@@ -1,0 +1,8 @@
+# Plugin version, do not edit.
+version: 0.0.1
+
+costs:
+  default_travel: 100.00
+  default_map: 300.00
+  default_station: 500.00
+setting_timeout: 30
