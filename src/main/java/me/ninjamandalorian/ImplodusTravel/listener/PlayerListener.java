@@ -20,8 +20,10 @@ import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import me.ninjamandalorian.ImplodusTravel.controller.PlayerController;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
+import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import me.ninjamandalorian.ImplodusTravel.ui.StationMenu;
 import net.md_5.bungee.api.ChatColor;
+import net.milkbowl.vault.economy.Economy;
 
 public class PlayerListener implements Listener {
 
@@ -50,6 +52,10 @@ public class PlayerListener implements Listener {
                             "[IMPLODUSTRAVEL] ERROR: BANNER AT " + block.getLocation() + " HAS MARK BUT NO OBJECT");
                     return;
                 }
+                if (station.isBlacklisted(player)) {
+                    player.sendMessage(ChatColor.RED + "You are blacklisted from this station.");
+                    return;
+                }
                 ItemStack item = e.getItem();
                 if (item != null) {
                     Logger.log(item.getType().toString());
@@ -61,11 +67,7 @@ public class PlayerListener implements Listener {
                     }
                 }
                 e.setCancelled(true);
-                if (station.isBlacklisted(player)) {
-                    player.sendMessage(ChatColor.RED + "You are blacklisted from this station.");
-                } else {
-                    StationMenu.stationMenu(player, station).open(player);
-                }
+                StationMenu.stationMenu(player, station).open(player);
             }
         }
 
@@ -76,31 +78,62 @@ public class PlayerListener implements Listener {
         PlayerController.playerMoved(e);
     }
 
+    /** Handles station map creation
+     * @param e - Event
+     * @param station - Station interacted with
+     */
     private static void mapHandle(PlayerInteractEvent e, Station station) {
+        Player player = e.getPlayer();
         ItemStack item = e.getItem();
-        if (item.getAmount() > 1) {
+
+        // Catch incase changes happen between methods
+        if (station.isBlacklisted(player)) {
             e.setCancelled(true);
-            e.getPlayer().sendMessage(ChatColor.RED + "Hold a single map to make a token.");
             return;
         }
 
+        // No permission
+        if (!player.hasPermission("implodustravel.station.map")) {
+            e.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "You do not have permission to create station tokens.");
+            return;
+        }
+
+        // Must be a single stack
+        if (item.getAmount() > 1) {
+            e.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "Hold a single map to make a token.");
+            return;
+        }
+
+        // Must be in survival/adventure
         if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
             e.setCancelled(true);
-            e.getPlayer().sendMessage(ChatColor.RED + "You need to be in survival to make a token.");
+            player.sendMessage(ChatColor.RED + "You need to be in survival to make a token.");
+            return;
+        }
+
+        // Must have required money.
+        Economy econ = ImplodusTravel.getEcon();
+        Double cost = Settings.getDefaultMapCost() * station.getRankMult(player);
+        if (econ.getBalance(player) < cost) {
+            e.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "You need " + econ.format(cost) + " to make a token.");
             return;
         }
 
         int slotNum = e.getPlayer().getInventory().getHeldItemSlot();
-        Logger.log("" + slotNum + " ; " + e.getPlayer().getInventory().getItem(slotNum));
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(ImplodusTravel.getInstance(), new Runnable() {
 
             @Override
             public void run() {
                 ItemStack item = e.getPlayer().getInventory().getItem(slotNum);
                 if (item.getType().equals(Material.FILLED_MAP)) {
+                    if (econ.getBalance(player) < cost) return;
+                    econ.withdrawPlayer(player, cost);
                     PersistentDataController.giveTokenTag(item, station);
                 } else {
-                    Logger.log(e.getPlayer().getName() + " switched inventory slot real fast.");
+                    Logger.log(player.getName() + " switched inventory slot real fast.");
                 }
             }
         }, 3L);
