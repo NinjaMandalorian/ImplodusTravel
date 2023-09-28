@@ -37,4 +37,8 @@ public class Settings {
     public static int getSettingTimeout() {
         return config.getInt("setting_timeout");
     }
+
+    public static boolean isDebugMode() {
+        return config.getBoolean("debug_mode");
+    }
 }

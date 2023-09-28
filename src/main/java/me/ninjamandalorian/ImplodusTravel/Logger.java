@@ -8,6 +8,8 @@ import java.util.Date;
 
 import org.bukkit.Bukkit;
 
+import me.ninjamandalorian.ImplodusTravel.settings.Settings;
+
 public class Logger {
 
     private static File logFolder;
@@ -28,8 +30,9 @@ public class Logger {
     }
 
     public static void debug(String string) {
-        // Bukkit.getLogger().info("[IT-DEBUG] " + string);
-        quietLog("[DEBUG-MODE] " + string);
+        if (Settings.isDebugMode()) {
+            quietLog("[DEBUG-MODE] " + string);
+        }
     }
 
     private static void fileLog(String logMsg) {
