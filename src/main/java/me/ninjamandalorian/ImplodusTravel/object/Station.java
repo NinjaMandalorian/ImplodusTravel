@@ -173,7 +173,7 @@ public class Station implements ChatSettable {
             return;
         }
 
-        Double cost = getCost(player);
+        Double cost = this.getCost(player) + source.getCost(player);
         Economy econ = ImplodusTravel.getEcon();
         if (econ.getBalance(player) < cost) {
             player.sendMessage(ChatColor.RED + "You do not have enough money to travel here.");
