@@ -165,7 +165,6 @@ public class Station implements ChatSettable {
     }
 
     public void teleportPlayer(Player player, Station source) {
-        // TODO debug teleport
         if (isBlacklisted(player)) return;
 
         if (PlayerController.isPlayerTeleporting(player)) {
