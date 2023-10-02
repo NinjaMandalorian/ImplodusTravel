@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
+import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import net.md_5.bungee.api.ChatColor;
 
 public class BlockListener implements Listener {
@@ -51,6 +52,17 @@ public class BlockListener implements Listener {
             e.setCancelled(true);
             player.sendMessage(ChatColor.RED + "You cannot place this.");
             return;
+        }
+
+        if (Station.getPlayerStations(player).size() >= Settings.getMaxStationsPerPerson()) {
+            if (player.hasPermission("implodustravel.admin")) {
+                player.sendMessage(ChatColor.YELLOW + "You overrode the max station check as admin.");
+                Logger.quietLog("Plugin admin " + player.getUniqueId().toString() + " overrode station no. limit.");
+            } else {
+                e.setCancelled(true);
+                player.sendMessage(ChatColor.RED + "You already have the maximum no. of stations.");
+                return;
+            }
         }
 
         Block block = e.getBlock();

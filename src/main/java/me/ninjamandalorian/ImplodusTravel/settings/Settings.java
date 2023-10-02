@@ -41,4 +41,8 @@ public class Settings {
     public static boolean isDebugMode() {
         return config.getBoolean("debug_mode");
     }
+
+    public static int getMaxStationsPerPerson() {
+        return config.getInt("stations_per_person");
+    }
 }

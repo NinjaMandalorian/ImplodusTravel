@@ -7,4 +7,7 @@ costs:
   default_travel: 100.00
   default_map: 300.00
   default_station: 500.00
+
+stations_per_person: 1
+
 setting_timeout: 30
