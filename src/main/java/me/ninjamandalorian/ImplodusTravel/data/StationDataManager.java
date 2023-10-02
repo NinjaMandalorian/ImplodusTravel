@@ -76,6 +76,10 @@ public class StationDataManager {
             }
         }
 
+        if (hashMap.containsKey("defaultCost")) {
+            station.setDefaultCost((Double) hashMap.get("defaultCost"));
+        }
+
         return station;
     }
 
@@ -86,6 +90,7 @@ public class StationDataManager {
         map.put("owner", station.getOwner().getUniqueId().toString());
         map.put("location", locationToString(station.getStationLocation()));
         map.put("destination", locationToString(station.getTeleportLocation()));
+        map.put("defaultCost", station.getDefaultCost());
 
         if (station.getDestinations().size() > 0) {
             ArrayList<String> destinationList = new ArrayList<>();
