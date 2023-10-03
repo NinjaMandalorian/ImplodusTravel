@@ -97,11 +97,11 @@ public class StationMenu {
             .lore(colorMsg("&dTyped in chat. &cAlphanumeric.\n&eClick to start."))
         );
 
-        builder.setButton(11, generateRankButton(player, station, "towny_town", Material.HORN_CORAL_FAN) ); // Town
-        builder.setButton(12, generateRankButton(player, station, "towny_nation", Material.TUBE_CORAL_FAN) ); // Nation
-        builder.setButton(13, generateRankButton(player, station, "towny_ally", Material.BRAIN_CORAL_FAN) ); // Ally
-        builder.setButton(14, generateRankButton(player, station, "neutral", Material.DEAD_BRAIN_CORAL) ); // Neutral
-        builder.setButton(15, generateRankButton(player, station, "towny_enemy", Material.FIRE_CORAL_FAN) ); // Enemy
+        builder.setButton(11, generateRankButton(player, station, "towny_town", Material.HORN_CORAL_FAN).name("&3Town Multiplier") ); // Town
+        builder.setButton(12, generateRankButton(player, station, "towny_nation", Material.TUBE_CORAL_FAN).name("&3Nation Multiplier") ); // Nation
+        builder.setButton(13, generateRankButton(player, station, "towny_ally", Material.BRAIN_CORAL_FAN).name("&3Ally Multiplier") ); // Ally
+        builder.setButton(14, generateRankButton(player, station, "neutral", Material.DEAD_BRAIN_CORAL).name("&3Neutral Multiplier") ); // Neutral
+        builder.setButton(15, generateRankButton(player, station, "towny_enemy", Material.FIRE_CORAL_FAN).name("&3Enemy Multiplier") ); // Enemy
         
         builder.setButton(
             16, 
