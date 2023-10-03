@@ -69,7 +69,7 @@ public class ImplodusTravelCommand implements CommandExecutor, TabCompleter {
             ItemMeta meta = item.getItemMeta();
             meta.setLore(Arrays.asList(ChatColor.GREEN + "Place this to create a new station."));
             item.setItemMeta(meta);
-            player.sendMessage("Your banner is now a station. Place it to create the station.");
+            player.sendMessage(ChatColor.GREEN + "Your banner is now a station. Place it to create the station.");
         } else {
             player.sendMessage(ChatColor.RED + "You must use a banner.");
         }

@@ -174,7 +174,14 @@ public class StationMenu {
             }));
         }
         button.name("&b" + dest.getDisplayName());
-        
+
+        String loreString = "";
+        int distance = (int) Math.ceil(source.getStationLocation().distance(dest.getTeleportLocation()));
+        loreString += "&7Distance: &6" + distance;
+        double cost = dest.getCost(player) + source.getCost(player);
+        loreString += "\n&7Cost: &6" + ImplodusTravel.getEcon().format(cost);
+        button.lore(colorMsg(loreString));
+
         return button;
     }
 

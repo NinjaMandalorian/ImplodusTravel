@@ -80,7 +80,8 @@ public class BlockListener implements Listener {
             player.getLocation()
         );
         
-        player.sendMessage("created station - " + newStation.getDisplayName() + " : " + newStation.getIdString());
+        player.sendMessage(ChatColor.GREEN + "You created " + ChatColor.YELLOW + newStation.getDisplayName() + ChatColor.GREEN + ".");
+        Logger.quietLog(player.getUniqueId().toString() +  " created station - " + newStation.getDisplayName() + " : " + newStation.getIdString());
         
     }
     
