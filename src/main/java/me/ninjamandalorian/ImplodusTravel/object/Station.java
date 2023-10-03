@@ -44,6 +44,7 @@ public class Station implements ChatSettable {
 
     private double defaultCost; // Cost without any multipliers (editable)
     private HashMap<String, Double> rankMultMap = new HashMap<>();
+    private boolean ownerOnlyMaps = false; // If true, only the station's owner can make maps of it.
 
     /** Constructor method
      * @param id
@@ -153,6 +154,14 @@ public class Station implements ChatSettable {
     public void transferOwnership(OfflinePlayer newPlayer) {
         Logger.log("Station " + this.getIdString() + " transferred from " + this.owner.getUniqueId() + " to " + newPlayer.getUniqueId());
         this.owner = newPlayer;
+    }
+
+    public boolean hasOwnerOnlyMaps() {
+        return this.ownerOnlyMaps;
+    }
+
+    public void setOwnerOnlyMaps(boolean bool) {
+        this.ownerOnlyMaps = bool;
     }
 
     /**

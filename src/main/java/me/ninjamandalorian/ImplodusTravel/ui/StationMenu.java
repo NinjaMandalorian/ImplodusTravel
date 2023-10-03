@@ -109,6 +109,19 @@ public class StationMenu {
             .lore(colorMsg("&aCurrent cost: &6" + ImplodusTravel.getEcon().format(station.getDefaultCost())))
         );
 
+        boolean isOwnerOnly = station.hasOwnerOnlyMaps();
+        builder.setButton(
+            19, 
+            BaseButton.create(Material.MAP)
+            .task(new RunnableTask(() -> {
+                station.setOwnerOnlyMaps(!isOwnerOnly);
+                player.sendMessage(colorMsg("&aOwner only maps is now: " + (!isOwnerOnly ? "&2" : "&c") + String.valueOf(!isOwnerOnly)));
+            }).closeMenu())
+            .name("&4Owner Only Map Making")
+            .lore(colorMsg("&7When true, only you can make maps.\n&7This is currently set to: " 
+            + (isOwnerOnly ? "&a" : "&c") + String.valueOf(isOwnerOnly) + "&7."))
+        );
+
         return builder;
     }
 
@@ -119,7 +132,8 @@ public class StationMenu {
 
         Long rankMult = Math.round( station.getRankMult(rank)*100.0 );
         
-        button.lore("Current value:\n" + (rankMult < 0 ? "Blacklisted": rankMult + "%"));
+        button.lore(colorMsg("&7The percent of the station's travel\n&7cost that is charged to this group."
+        + "\n&7Current value: " + (rankMult < 0 ? "&cBlacklisted": "&a" +rankMult + "%")));
         button.task(new ChatSettingTask(player, station, "rank." + rank));
         return button;
     }

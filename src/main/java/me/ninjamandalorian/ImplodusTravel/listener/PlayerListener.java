@@ -106,6 +106,12 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        if (station.hasOwnerOnlyMaps() && !player.equals(station.getOwner())) {
+            e.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "This station has owner-only map-making.");
+            return;
+        }
+
         // Must be in survival/adventure
         if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
             e.setCancelled(true);

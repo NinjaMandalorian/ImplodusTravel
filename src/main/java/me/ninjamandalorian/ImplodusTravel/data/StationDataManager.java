@@ -80,6 +80,10 @@ public class StationDataManager {
             station.setDefaultCost((Double) hashMap.get("defaultCost"));
         }
 
+        if (hashMap.containsKey("ownerOnlyMaps")) {
+            station.setOwnerOnlyMaps((Boolean) hashMap.get("ownerOnlyMaps"));
+        }
+
         return station;
     }
 
@@ -91,6 +95,8 @@ public class StationDataManager {
         map.put("location", locationToString(station.getStationLocation()));
         map.put("destination", locationToString(station.getTeleportLocation()));
         map.put("defaultCost", station.getDefaultCost());
+        map.put("ownerOnlyMaps", station.hasOwnerOnlyMaps());
+
 
         if (station.getDestinations().size() > 0) {
             ArrayList<String> destinationList = new ArrayList<>();
