@@ -17,7 +17,9 @@ import me.ninjamandalorian.ImplodusTravel.object.Station;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseButton;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu;
 import me.ninjamandalorian.ImplodusTravel.ui.object.Buildable;
+import me.ninjamandalorian.ImplodusTravel.ui.object.PagedMenu;
 import me.ninjamandalorian.ImplodusTravel.ui.object.BaseMenu.Builder;
+import me.ninjamandalorian.ImplodusTravel.ui.object.PagedMenu.PagedBuilder;
 import me.ninjamandalorian.ImplodusTravel.ui.task.ChatSettingTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.InventoryTask;
 import me.ninjamandalorian.ImplodusTravel.ui.task.MessageTask;
@@ -78,13 +80,14 @@ public class StationMenu {
         // click -> teleport attempt
         // Outline? yes/no?
         // page buttons
-        Builder builder = BaseMenu.createBuilder().rows(4).title(station.getDisplayName() + " - List");
+        PagedBuilder builder = PagedMenu.createPagedBuilder()
+        .title(station.getDisplayName() + " - List");
 
         ArrayList<BaseButton> stationButtons = generateStations(player, station);
 
-        for (int i = 0; i < stationButtons.size(); i++) {
-            builder.setButton(i, stationButtons.get(i));
-        }
+        builder.setContents(stationButtons);
+        builder.fillOutline();
+        builder.makePageButtons(45, 53);
 
         return builder;
     }

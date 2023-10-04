@@ -100,19 +100,59 @@ public class PagedMenu extends BaseMenu {
          * @return Builder
          */
         public PagedBuilder setContents(ArrayList<BaseButton> buttonList) {
-            // TODO CREATE CONTENT SORTER
+            // 36 per page
+            ArrayList<BaseButton> page = new ArrayList<BaseButton>();
+
+            for (BaseButton button : buttonList) {
+                if (page.size() < 36) {
+                    page.add(button);
+                } else {
+                    pageButtons.add(page);
+                    page = new ArrayList<BaseButton>();
+                }
+            }
+
+            if (pageButtons.size() < 1 || page.size() > 0) pageButtons.add(page);
             return this;
         }
         
         public PagedBuilder makePageButtons(int backPosition, int forwardPosition) {
-            menuButtons.put(backPosition, BaseButton.create(Material.GREEN_DYE).name("&ePrevious Page").task(new PageTask(-1)));
-            menuButtons.put(forwardPosition, BaseButton.create(Material.GREEN_DYE).name("&eNext Page").task(new PageTask(1)));
+            menuButtons.put(backPosition, BaseButton.create(Material.PAPER).name("&ePrevious Page").task(new PageTask(-1)));
+            menuButtons.put(forwardPosition, BaseButton.create(Material.PAPER).name("&eNext Page").task(new PageTask(1)));
             return this;
         }
         
         public PagedBuilder openMsg(String msg) {
             this.openMsg = msg;
             return this;
+        }
+
+        public PagedBuilder fillRow(int row) {
+            
+            for (int i = 0; i < 9; i++) {
+                int slot = 9*row + i;
+                if (!this.menuButtons.containsKey(slot)) {
+                    this.menuButtons.put(slot, BaseButton.background());
+                }
+            }
+            
+            return this;
+        }
+        
+        public PagedBuilder fillColumn(int column) {
+            
+            for (int i = 0; i < (this.menuSize/9); i++) {
+                int slot = 9*i +column;
+                if (!this.menuButtons.containsKey(slot)) {
+                    this.menuButtons.put(slot, BaseButton.background());
+                }
+            }
+            
+            return this;
+        }
+        
+        public PagedBuilder fillOutline() {
+            return this.fillColumn(0).fillColumn(8).fillRow(0).fillRow((this.menuSize/9)-1);
         }
 
         @Override
