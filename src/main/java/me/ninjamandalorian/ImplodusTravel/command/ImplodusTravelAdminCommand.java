@@ -42,7 +42,10 @@ public class ImplodusTravelAdminCommand implements CommandExecutor, TabCompleter
                 break;
             case "view":
                 viewStation(sender, remFirst(args));
-                break;   
+                break;
+            case "delete":
+                deleteStation(sender, remFirst(args));
+                break;
             default:
                 break;
         }
@@ -74,6 +77,27 @@ public class ImplodusTravelAdminCommand implements CommandExecutor, TabCompleter
         }
     }
     
+    private void deleteStation(CommandSender sender, String[] args) {
+        Station station = strToStation(args.length > 0 ? args[0] : null);
+        if (station == null) {
+            sender.sendMessage("Please specify a station UUID.");
+            return;
+        }
+
+        station.delete();
+    }
+    
+
+    private Station strToStation(String string) {
+        UUID id;
+        try {
+            id = UUID.fromString(string); 
+        } catch (Exception e) {
+            return null;
+        }
+        return Station.getStation(id);
+    }
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.hasPermission("implodustravel.admin")) return Collections.emptyList();
