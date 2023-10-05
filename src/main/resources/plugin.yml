@@ -13,4 +13,8 @@ commands:
     softdepend: [Vault]
     aliases:
       - itravel
-  
+  implodustraveladmin:
+    description: Admin access command
+    softdepend: [Vault]
+    aliases:
+      - ita
