@@ -62,14 +62,15 @@ public class ImplodusTravelAdminCommand implements CommandExecutor, TabCompleter
             sender.sendMessage("Station not found.");
             return;
         }
-        sender.sendMessage("Station: " + station.getDisplayName() + " | Owner: " + station.getOwner().getName() + " | Banner: " + station.getStationLocation().toString());
+        String stationString = "&aStation: &e" + station.getDisplayName() + "&a | Owner: &e" + station.getOwner().getName() + "&a | Banner: &e" + station.getStationLocation().toString();
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', stationString));
     }
     
     private void listStations(CommandSender sender) {
         Collection<Station> stations = Station.getStations();
         sender.sendMessage("Name - Owner - ID");
         for (Station station : stations) {
-            sender.sendMessage(station.getDisplayName() + " - " + station.getOwner().getName() + " - " + station.getIdString());
+            sender.sendMessage(ChatColor.GREEN + station.getDisplayName() + " - " + station.getOwner().getName() + " - " + station.getIdString());
         }
     }
     
