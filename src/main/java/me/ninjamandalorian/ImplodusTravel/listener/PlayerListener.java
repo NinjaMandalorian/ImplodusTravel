@@ -1,5 +1,6 @@
 package me.ninjamandalorian.ImplodusTravel.listener;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -14,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.Logger;
@@ -138,6 +140,16 @@ public class PlayerListener implements Listener {
                     if (econ.getBalance(player) < cost) return;
                     econ.withdrawPlayer(player, cost);
                     PersistentDataController.giveTokenTag(item, station);
+
+                    // Add ItemStack information
+                    ItemMeta meta = item.getItemMeta();
+                    meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aStation Map &7- &e" + station.getDisplayName()));
+                    String lore = "&7Hold this whilst clicking\n&7the &bAdd new station &7button\n&7to add it to the station list.";
+                    lore = ChatColor.translateAlternateColorCodes('&', lore);
+                    meta.setLore((Arrays.asList(lore.split("\n"))));
+                    item.setItemMeta(meta);
+
+                    player.sendMessage(ChatColor.GREEN + "You paid " + econ.format(cost) + " to make a map for " + ChatColor.YELLOW + station.getDisplayName());
                 } else {
                     Logger.log(player.getName() + " switched inventory slot real fast.");
                 }
