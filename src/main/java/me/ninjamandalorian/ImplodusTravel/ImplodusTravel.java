@@ -32,6 +32,7 @@ public class ImplodusTravel extends JavaPlugin {
         Settings.init();
         new DataManager();
         new ImplodusTravelCommand();
+        new ImplodusTravelAdminCommand();
         new PlayerController(this);
 
         PluginManager pluginManager = getServer().getPluginManager();
