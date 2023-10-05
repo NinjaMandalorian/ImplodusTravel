@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
@@ -46,6 +47,8 @@ public class ImplodusTravelAdminCommand implements CommandExecutor, TabCompleter
             case "delete":
                 deleteStation(sender, remFirst(args));
                 break;
+            case "teleport":
+                teleportStation(sender, remFirst(args));
             default:
                 break;
         }
@@ -53,16 +56,9 @@ public class ImplodusTravelAdminCommand implements CommandExecutor, TabCompleter
     }
 
     private void viewStation(CommandSender sender, String[] args) {
-        UUID id;
-        try {
-            id = UUID.fromString(args[0]); 
-        } catch (Exception e) {
-            sender.sendMessage("Please specify a station UUID.");
-            return;
-        }
-        Station station = Station.getStation(id);
+        Station station = strToStation(args.length > 0 ? args[0] : null);
         if (station == null) {
-            sender.sendMessage("Station not found.");
+            sender.sendMessage("Please specify a station UUID.");
             return;
         }
         String stationString = "&aStation: &e" + station.getDisplayName() + "&a | Owner: &e" + station.getOwner().getName() + "&a | Banner: &e" + station.getStationLocation().toString();
@@ -85,8 +81,24 @@ public class ImplodusTravelAdminCommand implements CommandExecutor, TabCompleter
         }
 
         station.delete();
+        sender.sendMessage(ChatColor.GREEN + "Station deleted.");
     }
-    
+
+    private void teleportStation(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage("You must be a player to use this command.");
+            return;
+        }
+
+        Station station = strToStation(args.length > 0 ? args[0] : null);
+        if (station == null) {
+            sender.sendMessage("Please specify a station UUID.");
+            return;
+        }
+
+        player.teleport(station.getStationLocation());
+        player.sendMessage(ChatColor.GREEN + "Teleported to " + station.getDisplayName());
+    }
 
     private Station strToStation(String string) {
         UUID id;
