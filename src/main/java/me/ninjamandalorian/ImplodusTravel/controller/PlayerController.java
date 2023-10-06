@@ -45,7 +45,7 @@ public class PlayerController {
         player.sendMessage(colorMsg("&4Teleportation Failed."));
     }
 
-    public static void teleportTick() {
+    private static void teleportTick() {
         for (Entry<Player, Long> entry : playerWaitTimes.entrySet()) {
             if (System.currentTimeMillis() > entry.getValue()) {
                 endTeleport(entry.getKey());
