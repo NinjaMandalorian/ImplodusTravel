@@ -7,15 +7,23 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
+/** Event that runs right before creating a station item
+ * @author NinjaMandalorian
+ */
 public class StationItemCreateEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled;
 
-    private Player player;
-    private Block block;
-    private ItemStack itemStack;
+    private Player player; // Player creating item
+    private Block block; // Block of station
+    private ItemStack itemStack; // Item turning into station item
 
+    /** Constructor
+     * @param player - Player making item
+     * @param block - Block for creation
+     * @param itemStack - Item for creation
+     */
     public StationItemCreateEvent(Player player, Block block, ItemStack itemStack) {
         this.player = player;
         this.block = block;
@@ -25,7 +33,7 @@ public class StationItemCreateEvent extends Event implements Cancellable {
 
     @Override
     public HandlerList getHandlers() {
-       return handlers;
+        return handlers;
     }
 
     public static HandlerList getHandlerList() {
@@ -42,14 +50,23 @@ public class StationItemCreateEvent extends Event implements Cancellable {
         cancelled = cancel;
     }
     
+    /** Get player of creation
+     * @return Player creating item
+     */
     public Player getPlayer() {
         return player;
     }
     
+    /** Get block of creation
+     * @return Block of creation
+     */
     public Block getBlock() {
         return block;
     }
 
+    /** Get item being modified
+     * @return ItemStack being modified
+     */
     public ItemStack getItemStack() {
         return itemStack;
     }

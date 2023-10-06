@@ -7,15 +7,23 @@ import org.bukkit.event.HandlerList;
 
 import me.ninjamandalorian.ImplodusTravel.object.Station;
 
+/** Event that runs after transporting a player
+ * @author NinjaMandalorian
+ */
 public class PostTransportEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled;
 
-    private Player player;
-    private Station source;
-    private Station dest;
+    private Player player; // Player of transport
+    private Station source; // Station teleporting from
+    private Station dest; // Station teleporting to
 
+    /** Constructor
+     * @param player - Player
+     * @param source - Source station
+     * @param dest - Destination station
+     */
     public PostTransportEvent(Player player, Station source, Station dest){
         this.player = player;
         this.source = source;
@@ -25,7 +33,7 @@ public class PostTransportEvent extends Event implements Cancellable {
 
     @Override
     public HandlerList getHandlers() {
-       return handlers;
+        return handlers;
     }
 
     public static HandlerList getHandlerList() {
@@ -42,14 +50,23 @@ public class PostTransportEvent extends Event implements Cancellable {
         cancelled = cancel;
     }
 
+    /** Get the player doing the teleport
+     * @return Player teleporting
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /** Get the source station of the teleport
+     * @return Source station
+     */
     public Station getSource() {
         return source;
     }
     
+    /** Get the destination station of the teleport
+     * @return Destination station
+     */
     public Station getDest() {
         return dest;
     }
