@@ -17,11 +17,15 @@ import org.yaml.snakeyaml.Yaml;
 
 import me.ninjamandalorian.ImplodusTravel.Logger;
 
+/** Data Managing Handler
+ * @author NinjaMandalorian
+ */
 public class DataManager {
 	
-    private static String dataPath = "plugins" + File.separator + "ImplodusTravel" + File.separator + "data";
+    private static String dataPath = "plugins" + File.separator + "ImplodusTravel" + File.separator + "data"; // Data folder path
     private static DumperOptions options;
     
+    /** Constructor begins init */
 	public DataManager() {
 		initData();
 	}
@@ -41,7 +45,7 @@ public class DataManager {
             }
         }
 
-        StationDataManager.initStationFiles(dataPath);
+        StationDataManager.initStationFiles(dataPath); // Runs station data init
     }
 	
 	/**
@@ -54,7 +58,7 @@ public class DataManager {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(file);
-
+            // Sets options to preferable YAML format
             if (options == null) {
                 options = new DumperOptions();
                 options.setIndent(2);
@@ -100,6 +104,10 @@ public class DataManager {
         return data;
 	}
 	
+    /** Delete file
+     * @param filePath - File path
+     * @return Success boolean
+     */
 	public static boolean deleteFile(String filePath) {
         File file = getFile(filePath);
         

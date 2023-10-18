@@ -27,37 +27,43 @@ import me.ninjamandalorian.ImplodusTravel.ui.StationMenu;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
+/** Player listeners class
+ * @author NinjaMandalorian
+ */
 public class PlayerListener implements Listener {
 
-    HashMap<Player, Long> cooldownMap = new HashMap<Player, Long>();
+    HashMap<Player, Long> cooldownMap = new HashMap<Player, Long>(); // Map for stopping interaction spam
 
+    /** Player interaction listener
+     * @param e - Event
+     */
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Block block = e.getClickedBlock();
 
         if (block == null)
-            return;
+            return; // Return if null
         if (cooldownMap.containsKey(player) && System.currentTimeMillis() - cooldownMap.get(player) < 250)
-            return;
+            return; // Return if on cooldown
         cooldownMap.put(player, System.currentTimeMillis());
 
-        if (block.getState() instanceof Banner banner) {
+        if (block.getState() instanceof Banner banner) { // If not banner ignore
 
             if (!PersistentDataController.isStationBlock(block))
-                return;
+                return; // Return if not station block
             Action action = e.getAction();
             if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                 Station station = Station.getStation(block.getLocation());
                 if (station == null) {
-                    Bukkit.getLogger().info(
-                            "[IMPLODUSTRAVEL] ERROR: BANNER AT " + block.getLocation() + " HAS MARK BUT NO OBJECT");
+                    Logger.warn("[IMPLODUSTRAVEL] ERROR: BANNER AT " + block.getLocation() + " HAS MARK BUT NO OBJECT");
                     return;
                 }
                 if (station.isBlacklisted(player)) {
                     player.sendMessage(ChatColor.RED + "You are blacklisted from this station.");
-                    return;
+                    return; // If blacklisted, notifies player and returns.
                 }
+                // If using a map, runs the map method
                 ItemStack item = e.getItem();
                 if (item != null) {
                     Logger.log(item.getType().toString());
@@ -68,6 +74,7 @@ public class PlayerListener implements Listener {
                         return;
                     }
                 }
+                // Otherwise, opens station.
                 e.setCancelled(true);
                 StationMenu.stationMenu(player, station).open(player);
             }
@@ -75,9 +82,12 @@ public class PlayerListener implements Listener {
 
     }
 
+    /** Player move event
+     * @param e - Event
+     */
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        PlayerController.playerMoved(e);
+        PlayerController.playerMoved(e); // Hands over to PlayerController for teleports
     }
 
     /** Handles station map creation
