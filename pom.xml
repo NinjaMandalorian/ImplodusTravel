@@ -18,48 +18,68 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
+                <filtering>false</filtering>
             </resource>
         </resources>
         <plugins>
             <plugin>
-      			  <artifactId>maven-assembly-plugin</artifactId>
-			      <version>2.5.3</version>
-			      <configuration>
-    			  <descriptorRefs>
-	        		<descriptorRef>jar-with-dependencies</descriptorRef>
-		       	  </descriptorRefs>
-      			</configuration>
-    		</plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
             <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-shade-plugin</artifactId>
-	            <version>3.4.1</version>
-	            <executions>
-	                <execution>
-	                    <phase>package</phase>
-	                    <goals>
-	                        <goal>shade</goal>
-	                    </goals>
-	                    <configuration>
-	                    	<artifactSet>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
                                 <includes>
                                     <include>net.kyori</include>
+                                    <include>net.kyori.adventure-platform-bukkit</include>
                                 </includes>
+                                <!-- <excludes>
+                                    <exclude>org.spigotmc</exclude>
+                                    <exclude>org.bukkit</exclude>
+                                    <exclude>org.yaml</exclude>
+                                    <exclude>org.apache</exclude>
+                                    <exclude>org.apache.logging</exclude>
+                                    <exclude>org.apache.commons</exclude>
+                                    <exclude>org.apache.logging.log4j</exclude>
+                                    <exclude>org.apache.logging.log4j.core</exclude>
+                                    <exclude>org.apache.logging.log4j.message</exclude>
+                                    <exclude>org.apache.logging.log4j.spi</exclude>
+                                    <exclude>org.apache.logging.log4j.util</exclude>
+                                    <exclude>org.apache.logging.log4j.status</exclude>
+                                    <exclude>org.apache.logging.log4j.simple</exclude>
+                                    <exclude>org.apache.logging.log4j.jul</exclude>
+                                    <exclude>org.apache.logging.log4j.jcl</exclude>
+                                    <exclude>org.apache.logging.log4j.jackson</exclude>
+                                    <exclude>org.apache.logging.log4j.json</exclude>
+                                </excludes> -->
                             </artifactSet>
                             <!-- Move classes so there's no conflicts -->
-                            <relocations>
+                            <!-- <relocations>
                                 <relocation>
                                     <pattern>net.kyori</pattern>
                                     <shadedPattern>me.NinjaMandalorian.ImplodusTravel.kyori</shadedPattern>
                                 </relocation>
-                            </relocations>
+                            </relocations> -->
                             <!-- Tells it to try to leave out unused classes -->
-                            <minimizeJar>true</minimizeJar>
+                            <minimizeJar>falseS</minimizeJar>
                         </configuration>
-	                </execution>
-	            </executions>
-	        </plugin>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -91,6 +111,11 @@
             <groupId>com.github.LlmDl</groupId>
             <artifactId>Towny</artifactId>
             <version>0.98.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-platform-bukkit</artifactId>
+            <version>4.3.2</version>
         </dependency>
     </dependencies>
 
