@@ -15,6 +15,7 @@ import org.bukkit.World;
 
 import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
+import me.ninjamandalorian.ImplodusTravel.object.TravelNetwork;
 
 /** Station Data Manager
  * @author NinjaMandalorian
@@ -67,8 +68,9 @@ public class StationDataManager {
         OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerUUID);
         Location location = stringToLocation((String) hashMap.get("location"));
         Location destination = stringToLocation((String) hashMap.get("destination"));
+        TravelNetwork network = TravelNetwork.getNetwork((String) hashMap.get("network"));
 
-        Station station = new Station(uuid, displayName, owner, location, destination);
+        Station station = new Station(uuid, displayName, owner, location, destination, network);
         // Creates destinations if in map
         if (hashMap.containsKey("destinationStations")) {
             List<String> destinationList = (List<String>) hashMap.get("destinationStations");

@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import me.ninjamandalorian.ImplodusTravel.Logger;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
+import me.ninjamandalorian.ImplodusTravel.object.TravelNetwork;
 import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import net.md_5.bungee.api.ChatColor;
 
@@ -32,7 +33,7 @@ public class BlockListener implements Listener {
         Player player = e.getPlayer();
         Block block = e.getBlock();
         
-        if (block.getState() instanceof Banner banner) {
+        if (block.getState() instanceof Banner) {
             if (!PersistentDataController.isStationBlock(block)) return; // Ignores if not station
             Station station = Station.getStation(block.getLocation());
             if (station == null || player.hasPermission("implodustravel.admin")) { // Checks if admin or null station
@@ -81,13 +82,17 @@ public class BlockListener implements Listener {
         Nameable nameable = (Nameable) state;
         nameable.setCustomName("Banner");
         state.update(); // Updates block
+
+        // Get string NBT "network" tag from item
+        TravelNetwork network = PersistentDataController.getNetworkFromItem(item);
         
         Station newStation = new Station( // Create station object
             UUID.randomUUID(),
             "Station " + (Station.getStations().size()+1) ,
             player,
             block.getLocation(),
-            player.getLocation()
+            player.getLocation(),
+            network
         );
         // Notify and log
         player.sendMessage(ChatColor.GREEN + "You created " + ChatColor.YELLOW + newStation.getDisplayName() + ChatColor.GREEN + ".");

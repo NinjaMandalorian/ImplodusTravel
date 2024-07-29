@@ -42,6 +42,8 @@ public class Station implements ChatSettable {
     private Location teleportLocation; // Station's tp location
     private ArrayList<UUID> destinationStations = new ArrayList<>(); // Unlocked destinations
 
+    private TravelNetwork network; // Network the station is in
+
     private double defaultCost; // Cost without any multipliers (editable)
     private HashMap<String, Double> rankMultMap = new HashMap<>();
     private boolean ownerOnlyMaps = false; // If true, only the station's owner can make maps of it.
@@ -52,12 +54,13 @@ public class Station implements ChatSettable {
      * @param owner
      * @param location
      */
-    public Station(UUID id, String displayName, OfflinePlayer owner, Location location, Location destination) {
+    public Station(UUID id, String displayName, OfflinePlayer owner, Location location, Location destination, TravelNetwork network) {
         this.id = id;
         this.displayName = displayName;
         this.owner = owner;
         this.stationLocation = location;
         this.teleportLocation = destination;
+        this.network = network;
 
         // Ensure unique UUID for new station
         while (stations.containsKey(this.id)) {
@@ -101,6 +104,10 @@ public class Station implements ChatSettable {
         return owner;
     }
 
+    public TravelNetwork getNetwork() {
+        return network;
+    }
+
     /**
      * Gets the station location
      * @return station location
@@ -128,25 +135,38 @@ public class Station implements ChatSettable {
         ItemStack item = player.getInventory().getItemInMainHand();
         UUID itemUUID = PersistentDataController.getTokenUUID(item);
         if (itemUUID != null) {
-            destinationStations.add(itemUUID);
-            Logger.quietLog(player.getName() + " added " + itemUUID.toString() + " to " + id.toString());
-            player.getInventory().remove(item);
             Station addedStation = Station.getStation(itemUUID);
-            if (addedStation == null) player.sendMessage(ChatColor.GREEN + "Station added.");
-            else player.sendMessage(ChatColor.GREEN + "You added " + addedStation.getDisplayName() + " to the station.");
+            if (addedStation == null) {
+                player.sendMessage(ChatColor.RED + "Station not located. Please speak to a staff member about this.");
+                Logger.warn(displayName + " attempted to add a non-existent station: " + itemUUID.toString());
+                return;
+            }
+
+            // Network Checker
+            if (!getNetwork().equals(addedStation.getNetwork())) {
+                player.sendMessage(ChatColor.RED + "This station is not in the same network.");
+                return;
+            }
+            
+            // Adds and logs
+            addDestination(addedStation);
+            Logger.quietLog(player.getName() + " added " + itemUUID.toString() + " to " + id.toString());
+            
+            player.getInventory().remove(item);
+            player.sendMessage(ChatColor.GREEN + "You added " + addedStation.getDisplayName() + " to the station.");
         } else {
             player.sendMessage(ChatColor.RED + "Please hold a valid map.");
         }
     }
+    
+    public void addDestination(Station station) {
+        addDestination(station.getId());
+    }
 
     public void addDestination(UUID uuid) {
         destinationStations.add(uuid);
-    }
-
-    public void addDestination(Station station) {
-        destinationStations.add(station.getId());
-    }
-
+    }    
+    
     /**
      * Transfer ownership to new player
      * @param newPlayer - New owner

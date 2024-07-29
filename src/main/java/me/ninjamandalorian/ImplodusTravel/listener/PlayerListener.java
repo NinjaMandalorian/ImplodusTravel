@@ -48,7 +48,7 @@ public class PlayerListener implements Listener {
             return; // Return if on cooldown
         cooldownMap.put(player, System.currentTimeMillis());
 
-        if (block.getState() instanceof Banner banner) { // If not banner ignore
+        if (block.getState() instanceof Banner) { // If not banner ignore
 
             if (!PersistentDataController.isStationBlock(block))
                 return; // Return if not station block
