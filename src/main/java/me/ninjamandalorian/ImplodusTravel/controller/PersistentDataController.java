@@ -14,6 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
+import me.ninjamandalorian.ImplodusTravel.object.TravelNetwork;
 
 /** Controller for plugin's persistent data 
  * @author NinjaMandalorian
@@ -22,6 +23,7 @@ public class PersistentDataController {
     
     private static NamespacedKey customKey = new NamespacedKey(ImplodusTravel.getInstance(), "customcheck"); // Key for generic custom check
     private static NamespacedKey tokenKey = new NamespacedKey(ImplodusTravel.getInstance(), "stationCode"); // Key for station map's code
+    private static NamespacedKey networkKey = new NamespacedKey(ImplodusTravel.getInstance(), "networkCode"); // Key for network map's code
 
     /** Checks if a stack is a station item
      * @param item - Item to check
@@ -99,6 +101,20 @@ public class PersistentDataController {
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         pdc.set(tokenKey, PersistentDataType.STRING, station.getIdString());
         item.setItemMeta(meta);
+    }
+
+    /** Get network from item
+     * @param item - Item to get network from
+     * @return Network or default 
+     */
+    public static TravelNetwork getNetworkFromItem(ItemStack item) {
+        if (item == null || item.getItemMeta() == null) return TravelNetwork.getNetwork("default"); // Returns default if no meta
+        PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
+        if (!pdc.has(networkKey, PersistentDataType.STRING)) {
+            return TravelNetwork.getNetwork("default"); // Returns default if no key
+        }
+        String networkName = pdc.get(networkKey, PersistentDataType.STRING);
+        return TravelNetwork.getNetwork(networkName); // Returns network from name
     }
 
 }
