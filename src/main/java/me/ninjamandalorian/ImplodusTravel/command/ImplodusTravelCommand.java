@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,9 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
-import me.ninjamandalorian.ImplodusTravel.ItemGenerator;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
-import me.ninjamandalorian.ImplodusTravel.object.Station;
 import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
@@ -46,14 +42,6 @@ public class ImplodusTravelCommand implements CommandExecutor, TabCompleter {
                 } else {
                     // Warns if console
                     sender.sendMessage("Not possible for console.");
-                }
-                return true;
-            case "admintoken":
-                // TODO delete
-                if (sender instanceof Player plr) {
-                    if (!plr.hasPermission("implodustravel.admin")) return true;
-                    plr.getInventory().addItem(ItemGenerator.getDiscoveryTokenItem(new Station(UUID.randomUUID(), "TEST_STATION", plr, null, null)));
-                    plr.updateInventory();
                 }
                 return true;
         }
