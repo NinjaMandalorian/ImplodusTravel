@@ -117,4 +117,15 @@ public class PersistentDataController {
         return TravelNetwork.getNetwork(networkName); // Returns network from name
     }
 
+    /** Gives network tag to an item
+     * @param item - Item to give tag
+     * @param network - Network to give tag of
+     */
+    public static void giveNetworkTag(ItemStack item, TravelNetwork network) {
+        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        pdc.set(networkKey, PersistentDataType.STRING, network.getName());
+        item.setItemMeta(meta);
+    }
+
 }

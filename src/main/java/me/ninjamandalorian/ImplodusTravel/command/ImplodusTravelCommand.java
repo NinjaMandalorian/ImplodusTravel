@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.controller.PersistentDataController;
+import me.ninjamandalorian.ImplodusTravel.object.TravelNetwork;
 import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
@@ -73,6 +74,16 @@ public class ImplodusTravelCommand implements CommandExecutor, TabCompleter {
             ItemMeta meta = item.getItemMeta();
             meta.setLore(Arrays.asList(ChatColor.GREEN + "Place this to create a new station."));
             item.setItemMeta(meta);
+
+            // If player has permission, set network with 1st argument
+            if (player.hasPermission("implodustravel.station.buy.network")) {
+                if (args.length > 0) {
+                    TravelNetwork network = TravelNetwork.getNetwork(args[0]);
+                    
+                    PersistentDataController.giveNetworkTag(item, network);
+                }
+            }
+
             // Notifies player
             player.sendMessage(ChatColor.GREEN + "Your banner is now a station. Place it to create the station.");
         } else {

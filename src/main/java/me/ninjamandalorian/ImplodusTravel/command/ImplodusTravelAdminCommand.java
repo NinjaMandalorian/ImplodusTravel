@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
 import me.ninjamandalorian.ImplodusTravel.object.Station;
+import me.ninjamandalorian.ImplodusTravel.object.TravelNetwork;
 import net.md_5.bungee.api.ChatColor;
 
 /** Admin Command Class
@@ -55,10 +57,51 @@ public class ImplodusTravelAdminCommand implements CommandExecutor, TabCompleter
                 break;
             case "teleport":
                 teleportStation(sender, remFirst(args));
+                break;
+            case "set_network":
+                setNetwork(sender, remFirst(args));
             default:
                 break;
         }
         return true;
+    }
+
+    /**
+     * Set network for station
+     * @param sender - user who requested network set
+     * @param args - arguments
+     */
+    private void setNetwork(CommandSender sender, String[] args) {
+        sender.sendMessage("DISABLED");
+        return;
+
+        // if (args.length == 0) {
+        //     sender.sendMessage("Please specify a network name.");
+        //     return;
+        // }
+
+        // TravelNetwork network = TravelNetwork.getNetwork(args[0]);
+        // if (!network.getName().equals(args[0])) {
+        //     sender.sendMessage(ChatColor.RED + "Network not found.");
+        //     return;
+        // }
+
+        // Station station = null;
+        // if (args.length > 1) {
+        //     station = strToStation(args[1]);
+        // }
+        // // If no station, get target block
+        // if (station == null && sender instanceof Player player) {
+        //     Block block = player.getTargetBlock(null, 5);
+        //     if (block != null) {
+        //         station = Station.getStation(block.getLocation());
+        //     }
+        // }
+
+        // if (station == null) {
+        //     sender.sendMessage(ChatColor.RED + "Please specify a station UUID, or target a block.");
+        //     return;
+        // }
     }
 
     /** Show station info to user
