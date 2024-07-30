@@ -32,6 +32,10 @@ public class ImplodusTravelCommand implements CommandExecutor, TabCompleter {
     /** Admin command switch case */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length == 0) {
+            sender.sendMessage(ChatColor.RED + "Invalid command.");
+            return true;
+        }
         // Switch case for 1st arg
         switch (args[0].toLowerCase()) {
             case "buystation":
