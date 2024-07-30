@@ -1,15 +1,18 @@
 package me.ninjamandalorian.ImplodusTravel.object;
 
 import java.util.HashSet;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+
+import me.ninjamandalorian.ImplodusTravel.Logger;
 
 public class TravelNetwork {
     
     // Network Registry
     private static HashSet<TravelNetwork> networks = new HashSet<TravelNetwork>();
-    private static TravelNetwork defaultNetwork = new TravelNetwork("default", Bukkit.getWorld("world"));
+    private static TravelNetwork defaultNetwork = new TravelNetwork("default", null);
 
     // Static Initializer
     {
@@ -31,6 +34,10 @@ public class TravelNetwork {
 
     public TravelNetwork(String name, World world) {
         this(name, world, new HashSet<Station>());
+    }
+
+    public TravelNetwork(Map<String, Object> map) {
+        this((String) map.get("name"), Bukkit.getWorld((String) map.get("world")));
     }
     
     public String getName() {
@@ -72,11 +79,16 @@ public class TravelNetwork {
      */
     public static TravelNetwork getNetwork(String name) {
         for (TravelNetwork network : networks) {
-            if (network.getName().equals(name)) {
+            if (network != null && network.getName().equals(name)) {
                 return network;
             }
         }
         return defaultNetwork;
+    }
+
+    public static void addNetwork(TravelNetwork network) {
+        Logger.debug("Adding network: " + network.getName());
+        networks.add(network);
     }
 
 }
