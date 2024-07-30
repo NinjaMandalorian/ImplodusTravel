@@ -1,5 +1,8 @@
 package me.ninjamandalorian.ImplodusTravel;
 
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -13,6 +16,7 @@ import me.ninjamandalorian.ImplodusTravel.listener.AsyncChatListener;
 import me.ninjamandalorian.ImplodusTravel.listener.BlockListener;
 import me.ninjamandalorian.ImplodusTravel.listener.InventoryListener;
 import me.ninjamandalorian.ImplodusTravel.listener.PlayerListener;
+import me.ninjamandalorian.ImplodusTravel.object.TravelNetwork;
 import me.ninjamandalorian.ImplodusTravel.settings.Settings;
 import net.milkbowl.vault.economy.Economy;
 
@@ -30,6 +34,7 @@ public class ImplodusTravel extends JavaPlugin {
         setupEconomy();
 
         Settings.init();
+        initNetworks();
         new DataManager();
         new ImplodusTravelCommand();
         new ImplodusTravelAdminCommand();
@@ -42,6 +47,13 @@ public class ImplodusTravel extends JavaPlugin {
         pluginManager.registerEvents(new AsyncChatListener(), instance);
 
         townyInstalled = (Bukkit.getPluginManager().getPlugin("Towny") != null);
+    }
+
+    private static void initNetworks() {
+        List<Map<String, Object>> networks = Settings.getNetworks();
+        for (Map<String,Object> network : networks) {
+            TravelNetwork.addNetwork(new TravelNetwork(network));
+        }
     }
 
     @Override

@@ -1,8 +1,12 @@
 package me.ninjamandalorian.ImplodusTravel.settings;
 
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
 import me.ninjamandalorian.ImplodusTravel.ImplodusTravel;
+import me.ninjamandalorian.ImplodusTravel.Logger;
 
 public class Settings {
     
@@ -44,5 +48,11 @@ public class Settings {
 
     public static int getMaxStationsPerPerson() {
         return config.getInt("stations_per_person");
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Map<String, Object>> getNetworks() {
+        config.getKeys(false).forEach((key) -> Logger.debug(key));
+        return (List<Map<String, Object>>) config.getList("networks");
     }
 }

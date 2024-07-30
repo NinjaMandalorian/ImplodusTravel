@@ -1,5 +1,5 @@
 # Plugin version, do not edit.
-version: 1.0.1
+version: 1.1.0
 
 debug_mode: true
 
@@ -11,3 +11,7 @@ costs:
 stations_per_person: 1
 
 setting_timeout: 30
+
+networks:
+  - name: "example_network"
+    world: "world"
