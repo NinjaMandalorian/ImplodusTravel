@@ -1,7 +1,7 @@
 name: ImplodusTravel
 main: me.ninjamandalorian.ImplodusTravel.ImplodusTravel
 version: 1.0.1
-api-version: 1.19
+api-version: 1.21
 description: Interactive exploration plugin for travelling across the world.
 author: NinjaMandalorian
 depend: [Vault]
@@ -18,3 +18,4 @@ commands:
     softdepend: [Vault]
     aliases:
       - ita
+    permission: implodustravel.admin
