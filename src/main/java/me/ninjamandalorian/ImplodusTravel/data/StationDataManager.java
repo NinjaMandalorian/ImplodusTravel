@@ -113,7 +113,7 @@ public class StationDataManager {
         map.put("destination", locationToString(station.getTeleportLocation()));
         map.put("defaultCost", station.getDefaultCost());
         map.put("ownerOnlyMaps", station.hasOwnerOnlyMaps());
-
+        map.put("network", station.getNetwork().getName()); 
 
         if (station.getDestinations().size() > 0) {
             ArrayList<String> destinationList = new ArrayList<>();
