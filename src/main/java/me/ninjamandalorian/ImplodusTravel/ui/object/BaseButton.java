@@ -92,7 +92,7 @@ public class BaseButton {
      * @return button
      */
     public BaseButton glow() {
-        this.itemStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
+        this.itemStack.addUnsafeEnchantment(Enchantment.LUCK_OF_THE_SEA, 1);
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         this.itemStack.setItemMeta(meta);

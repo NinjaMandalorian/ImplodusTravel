@@ -79,8 +79,8 @@ public class BlockListener implements Listener {
         Block block = e.getBlock();
         PersistentDataController.giveCustomTag(block); // Gives banner block tag
         BlockState state = block.getState();
-        Nameable nameable = (Nameable) state;
-        nameable.setCustomName("Banner");
+        // Nameable nameable = (Nameable) state;
+        // nameable.setCustomName("Banner");
         state.update(); // Updates block
 
         // Get string NBT "network" tag from item

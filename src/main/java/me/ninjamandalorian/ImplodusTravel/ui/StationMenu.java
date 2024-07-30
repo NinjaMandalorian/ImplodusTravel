@@ -163,7 +163,7 @@ public class StationMenu {
         ItemStack buttonStack = new ItemStack(bannerBlock.getType());
         BannerMeta meta = (BannerMeta) buttonStack.getItemMeta();
         meta.setPatterns(patterns);
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         buttonStack.setItemMeta(meta);
 
         BaseButton button = BaseButton.create().itemStack(buttonStack);
