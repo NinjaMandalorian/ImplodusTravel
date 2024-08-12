@@ -85,8 +85,20 @@ public class StationMenu {
 
         ArrayList<BaseButton> stationButtons = generateStations(player, station);
 
+        String stationLore = "&7Owner: &e" + station.getOwner().getName();
+        stationLore += "\n&7Network: &e" + station.getNetwork().getName().replace('_', ' ');
+        if (station.getRange() != null)
+            stationLore += "\n&7Range: &e" + station.getRange();
+
         builder.setContents(stationButtons);
         builder.fillOutline();
+        builder.setButton(4, 
+            BaseButton.create(Material.WHITE_BANNER)
+                .glow()
+                .name("&aStation - &e" + station.getDisplayName())
+                .lore(colorMsg(stationLore)
+            )
+        );
         builder.makePageButtons(45, 53);
 
         return builder;
