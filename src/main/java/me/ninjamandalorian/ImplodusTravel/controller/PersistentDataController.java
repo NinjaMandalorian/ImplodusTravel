@@ -24,6 +24,7 @@ public class PersistentDataController {
     private static NamespacedKey customKey = new NamespacedKey(ImplodusTravel.getInstance(), "customcheck"); // Key for generic custom check
     private static NamespacedKey tokenKey = new NamespacedKey(ImplodusTravel.getInstance(), "stationCode"); // Key for station map's code
     private static NamespacedKey networkKey = new NamespacedKey(ImplodusTravel.getInstance(), "networkCode"); // Key for network map's code
+    private static NamespacedKey rangeKey = new NamespacedKey(ImplodusTravel.getInstance(), "range"); // Key for range of item
 
     /** Checks if a stack is a station item
      * @param item - Item to check
@@ -126,6 +127,22 @@ public class PersistentDataController {
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         pdc.set(networkKey, PersistentDataType.STRING, network.getName());
         item.setItemMeta(meta);
+    }
+
+    public static void giveRangeTag(ItemStack item, int range) {
+        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        pdc.set(rangeKey, PersistentDataType.INTEGER, range);
+        item.setItemMeta(meta);
+    }
+
+    public static Integer getRangeFromItem(ItemStack item) {
+        if (item == null || item.getItemMeta() == null) return null;
+        PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
+        if (!pdc.has(rangeKey, PersistentDataType.INTEGER)) {
+            return null;
+        }
+        return pdc.get(rangeKey, PersistentDataType.INTEGER);
     }
 
 }

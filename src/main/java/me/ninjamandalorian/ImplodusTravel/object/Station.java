@@ -43,6 +43,7 @@ public class Station implements ChatSettable {
     private ArrayList<UUID> destinationStations = new ArrayList<>(); // Unlocked destinations
 
     private TravelNetwork network; // Network the station is in
+    private Integer range; // Range of station
 
     private double defaultCost; // Cost without any multipliers (editable)
     private HashMap<String, Double> rankMultMap = new HashMap<>();
@@ -145,6 +146,12 @@ public class Station implements ChatSettable {
             // Network Checker
             if (!getNetwork().equals(addedStation.getNetwork())) {
                 player.sendMessage(ChatColor.RED + "This station is not in the same network.");
+                return;
+            }
+
+            // Range Checker
+            if (range != null && stationLocation.distance(addedStation.getStationLocation()) > range) {
+                player.sendMessage(ChatColor.RED + "This station is out of range.");
                 return;
             }
             
@@ -417,6 +424,15 @@ public class Station implements ChatSettable {
     public void changeOwner(OfflinePlayer newOwner) {
         this.owner = newOwner;
         save();
+    }
+
+    public void setRange(Integer range) {
+        this.range = range;
+        save();
+    }
+
+    public Integer getRange() {
+        return range;
     }
 
 }

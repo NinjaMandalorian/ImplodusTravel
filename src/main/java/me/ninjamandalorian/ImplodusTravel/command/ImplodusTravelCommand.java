@@ -83,6 +83,18 @@ public class ImplodusTravelCommand implements CommandExecutor, TabCompleter {
                     PersistentDataController.giveNetworkTag(item, network);
                 }
             }
+            
+            // If player has permission, set range with 2nd argument
+            if (player.hasPermission("implodustravel.station.buy.range")) {
+                if (args.length > 1) {
+                    try {
+                        int range = Integer.parseInt(args[1]);
+                        PersistentDataController.giveRangeTag(item, range);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage(ChatColor.RED + "Invalid range.");
+                    }
+                }
+            }
 
             // Notifies player
             player.sendMessage(ChatColor.GREEN + "Your banner is now a station. Place it to create the station.");

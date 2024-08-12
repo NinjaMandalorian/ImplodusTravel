@@ -97,6 +97,11 @@ public class StationDataManager {
             station.setOwnerOnlyMaps((Boolean) hashMap.get("ownerOnlyMaps"));
         }
 
+        // Sets range if in map
+        if (hashMap.containsKey("range")) {
+            station.setRange((Integer) hashMap.get("range"));
+        }
+
         return station;
     }
 
@@ -114,6 +119,8 @@ public class StationDataManager {
         map.put("defaultCost", station.getDefaultCost());
         map.put("ownerOnlyMaps", station.hasOwnerOnlyMaps());
         map.put("network", station.getNetwork().getName()); 
+        if (station.getRange() != null)
+            map.put("range", station.getRange());
 
         if (station.getDestinations().size() > 0) {
             ArrayList<String> destinationList = new ArrayList<>();

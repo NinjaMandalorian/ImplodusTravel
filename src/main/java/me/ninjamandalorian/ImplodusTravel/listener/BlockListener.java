@@ -85,6 +85,9 @@ public class BlockListener implements Listener {
 
         // Get string NBT "network" tag from item
         TravelNetwork network = PersistentDataController.getNetworkFromItem(item);
+
+        // Get integer NBT "range" tag from item
+        Integer range = PersistentDataController.getRangeFromItem(item);
         
         Station newStation = new Station( // Create station object
             UUID.randomUUID(),
@@ -94,6 +97,9 @@ public class BlockListener implements Listener {
             player.getLocation(),
             network
         );
+
+        if (range != null) newStation.setRange(range); // Sets range if not null
+
         // Notify and log
         player.sendMessage(ChatColor.GREEN + "You created " + ChatColor.YELLOW + newStation.getDisplayName() + ChatColor.GREEN + ".");
         Logger.quietLog(player.getUniqueId().toString() +  " created station - " + newStation.getDisplayName() + " : " + newStation.getIdString());
