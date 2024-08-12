@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -60,10 +62,34 @@ public class ImplodusTravelAdminCommand implements CommandExecutor, TabCompleter
                 break;
             case "set_network":
                 setNetwork(sender, remFirst(args));
+            case "change_owner":
+                changeOwner(sender, remFirst(args));
             default:
                 break;
         }
         return true;
+    }
+
+    private void changeOwner(CommandSender sender, String[] remFirst) {
+        Station station = strToStation(remFirst.length > 0 ? remFirst[0] : null);
+        if (station == null && sender instanceof Player player) {
+            station = getFocusedStation(player);
+        }
+
+        if (station == null) {
+            sender.sendMessage("Please specify a station UUID.");
+            return;
+        }
+
+        if (remFirst.length < 2) {
+            sender.sendMessage("Please specify a new owner.");
+            return;
+        }
+
+        @SuppressWarnings("deprecation")
+        OfflinePlayer newOwner = Bukkit.getOfflinePlayer(remFirst[1]);
+
+        station.changeOwner(newOwner);
     }
 
     /**
@@ -182,6 +208,14 @@ public class ImplodusTravelAdminCommand implements CommandExecutor, TabCompleter
             return null; // Returns null if error
         }
         return Station.getStation(id); // Else returns station list result (may be null)
+    }
+
+    private Station getFocusedStation(Player player) {
+        Block block = player.getTargetBlock(null, 5);
+        if (block != null) {
+            return Station.getStation(block.getLocation());
+        }
+        return null;
     }
 
     /** Tab Completion for admin commands */

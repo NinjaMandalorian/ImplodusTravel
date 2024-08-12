@@ -414,4 +414,9 @@ public class Station implements ChatSettable {
         return returnList;
     }
 
+    public void changeOwner(OfflinePlayer newOwner) {
+        this.owner = newOwner;
+        save();
+    }
+
 }
