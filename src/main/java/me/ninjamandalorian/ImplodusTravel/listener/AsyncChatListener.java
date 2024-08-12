@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -22,9 +23,10 @@ public class AsyncChatListener implements Listener {
     /** Runs on a player sending a message in chat
      * @param e - Event
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         if (settingRequests.containsKey(e.getPlayer())) {
+            e.setCancelled(true);
             // If player is in map, gets the request and removes it from the list
             Player player = e.getPlayer();
             SettingRequest request = settingRequests.get(player);
@@ -40,14 +42,7 @@ public class AsyncChatListener implements Listener {
             } catch (ChatSettingException ex) {
                 player.sendMessage(ChatColor.RED + "Error: " + ex.getMessage());
             }
-            try {
-                for (Player p : e.getRecipients()) {
-                    if (!p.equals(player)) {
-                        // Hides player's chat message for all other players
-                        e.getRecipients().remove(p);
-                    }
-                }   
-            } catch (Exception ex) {}
+            player.sendMessage(ChatColor.GREEN + "Setting " + ChatColor.YELLOW + request.getSetting() + ChatColor.GREEN  + " set to " + ChatColor.YELLOW + e.getMessage());
         }
     }
 
